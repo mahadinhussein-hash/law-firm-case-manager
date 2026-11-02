@@ -1,5 +1,8 @@
 package com.mahadin.lawfirm;
 
+import com.mahadin.lawfirm.billing.ContingencyBilling;
+import com.mahadin.lawfirm.billing.FlatFeeBilling;
+import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LegalCase;
@@ -11,7 +14,7 @@ import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        // Temporary demo of US1 + US2. Replaced by the console menu later.
+        // Temporary demo of US1-US3. Replaced by the console menu later.
         LawFirmService firm = new LawFirmService();
 
         Client anna = firm.addClient("Anna Kovacs", "anna@example.com", "+36 30 123 4567");
@@ -20,37 +23,41 @@ public class Main {
         Lawyer eva = firm.addLawyer("Eva Toth", 150.0);
 
         try {
-            firm.openCriminalCase("Theft accusation", anna, "State of Hungary",
+            LegalCase theft = firm.openCriminalCase("Theft accusation", anna, "State of Hungary",
                     LocalDate.of(2026, 12, 1), peter, "Theft");
-            firm.openFamilyCase("Custody dispute", bob, "Clara Szabo",
+            LegalCase custody = firm.openFamilyCase("Custody dispute", bob, "Clara Szabo",
                     LocalDate.of(2027, 1, 15), eva, "Custody");
-            firm.openCorporateCase("Contract breach", anna, "Acme Ltd",
+            LegalCase contract = firm.openCorporateCase("Contract breach", anna, "Acme Ltd",
                     LocalDate.of(2027, 3, 10), eva, "Kovacs Bakery Kft");
-        } catch (CaseLoadExceededException | ConflictOfInterestException e) {
-            System.out.println("Unexpected: " + e.getMessage());
-        }
 
-        System.out.println("All cases:");
-        for (LegalCase legalCase : firm.getCases()) {
-            System.out.println("  " + legalCase + " (rate x" + legalCase.getRateMultiplier() + ")");
-        }
+            // US3: log hours
+            firm.logHours(theft, LocalDate.of(2026, 11, 2), 3.0, "Client meeting");
+            firm.logHours(theft, LocalDate.of(2026, 11, 3), 2.5, "Reviewing evidence");
+            firm.logHours(custody, LocalDate.of(2026, 11, 2), 4.0, "Court preparation");
 
-        // Rule 1: conflict of interest - Peter represents Anna, so he cannot act against her.
-        try {
-            firm.openFamilyCase("Divorce", bob, "Anna Kovacs", LocalDate.of(2027, 2, 1), peter, "Divorce");
-        } catch (CaseLoadExceededException | ConflictOfInterestException e) {
-            System.out.println("Refused: " + e.getMessage());
-        }
+            // US3: choose a billing strategy per case (the theft case keeps the default hourly billing)
+            firm.chooseBilling(custody, new FlatFeeBilling(800));
+            firm.chooseBilling(contract, new ContingencyBilling(20, 50000));
 
-        // Rule 2: case limit - give Eva cases until she reaches the maximum of 5.
-        try {
-            for (int i = 1; i <= 4; i++) {
-                firm.openCorporateCase("Audit " + i, bob, "Company " + i,
-                        LocalDate.of(2027, 4, i), eva, "Szabo Holding");
+            System.out.println("Fees while all cases are open:");
+            for (LegalCase legalCase : firm.getCases()) {
+                System.out.println("  " + legalCase);
             }
+
+            // US3: close cases with an outcome
+            firm.closeCase(contract, CaseStatus.WON);
+            firm.closeCase(custody, CaseStatus.SETTLED);
+
+            System.out.println("Fees after closing two cases:");
+            for (LegalCase legalCase : firm.getCases()) {
+                System.out.println("  " + legalCase);
+            }
+
+            firm.logHours(contract, LocalDate.of(2026, 11, 4), 1.0, "Extra work");
         } catch (CaseLoadExceededException | ConflictOfInterestException e) {
             System.out.println("Refused: " + e.getMessage());
+        } catch (IllegalStateException e) {
+            System.out.println("Refused: " + e.getMessage());
         }
-        System.out.println("Eva's active cases: " + firm.countActiveCases(eva));
     }
 }
