@@ -1,11 +1,14 @@
 package com.mahadin.lawfirm.service;
 
+import com.mahadin.lawfirm.billing.BillingStrategy;
+import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.CorporateCase;
 import com.mahadin.lawfirm.domain.CriminalCase;
 import com.mahadin.lawfirm.domain.FamilyCase;
 import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LegalCase;
+import com.mahadin.lawfirm.domain.TimeEntry;
 import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
 
@@ -63,6 +66,18 @@ public class LawFirmService {
             throws CaseLoadExceededException, ConflictOfInterestException {
         checkCanAssign(lawyer, legalCase.getOpposingParty(), legalCase);
         legalCase.setLeadLawyer(lawyer);
+    }
+
+    public void logHours(LegalCase legalCase, LocalDate date, double hours, String description) {
+        legalCase.addTimeEntry(new TimeEntry(date, hours, description));
+    }
+
+    public void chooseBilling(LegalCase legalCase, BillingStrategy strategy) {
+        legalCase.setBillingStrategy(strategy);
+    }
+
+    public void closeCase(LegalCase legalCase, CaseStatus outcome) {
+        legalCase.close(outcome);
     }
 
     public int countActiveCases(Lawyer lawyer) {
