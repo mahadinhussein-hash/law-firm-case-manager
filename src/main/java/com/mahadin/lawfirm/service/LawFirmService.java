@@ -15,6 +15,7 @@ import com.mahadin.lawfirm.exception.ConflictOfInterestException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LawFirmService {
@@ -44,27 +45,27 @@ public class LawFirmService {
     public LegalCase openCriminalCase(String title, Client client, String opposingParty,
                                       LocalDate deadline, Lawyer lawyer, String charge)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty, null);
+        checkCanAssign(lawyer, opposingParty);
         return register(new CriminalCase(nextCaseId, title, client, opposingParty, deadline, lawyer, charge));
     }
 
     public LegalCase openFamilyCase(String title, Client client, String opposingParty,
                                     LocalDate deadline, Lawyer lawyer, String matterType)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty, null);
+        checkCanAssign(lawyer, opposingParty);
         return register(new FamilyCase(nextCaseId, title, client, opposingParty, deadline, lawyer, matterType));
     }
 
     public LegalCase openCorporateCase(String title, Client client, String opposingParty,
                                        LocalDate deadline, Lawyer lawyer, String companyName)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty, null);
+        checkCanAssign(lawyer, opposingParty);
         return register(new CorporateCase(nextCaseId, title, client, opposingParty, deadline, lawyer, companyName));
     }
 
     public void assignLawyer(LegalCase legalCase, Lawyer lawyer)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, legalCase.getOpposingParty(), legalCase);
+        checkCanAssign(lawyer, legalCase.getOpposingParty());
         legalCase.setLeadLawyer(lawyer);
     }
 
@@ -102,36 +103,65 @@ public class LawFirmService {
         return Collections.unmodifiableList(cases);
     }
 
+    public List<LegalCase> getCasesSorted(Comparator<LegalCase> order) {
+        List<LegalCase> sorted = new ArrayList<>(cases);
+        sorted.sort(order);
+        return sorted;
+    }
+
+    public Client findClient(int id) {
+        for (Client client : clients) {
+            if (client.getId() == id) {
+                return client;
+            }
+        }
+        throw new IllegalArgumentException("No client with id " + id + ".");
+    }
+
+    public Lawyer findLawyer(int id) {
+        for (Lawyer lawyer : lawyers) {
+            if (lawyer.getId() == id) {
+                return lawyer;
+            }
+        }
+        throw new IllegalArgumentException("No lawyer with id " + id + ".");
+    }
+
+    public LegalCase findCase(int id) {
+        for (LegalCase legalCase : cases) {
+            if (legalCase.getId() == id) {
+                return legalCase;
+            }
+        }
+        throw new IllegalArgumentException("No case with id " + id + ".");
+    }
+
     private LegalCase register(LegalCase legalCase) {
         cases.add(legalCase);
         nextCaseId++;
         return legalCase;
     }
 
-    private void checkCanAssign(Lawyer lawyer, String opposingParty, LegalCase caseBeingChanged)
+    private void checkCanAssign(Lawyer lawyer, String opposingParty)
             throws CaseLoadExceededException, ConflictOfInterestException {
         if (lawyer == null) {
             throw new IllegalArgumentException("A lawyer must be chosen.");
         }
-
-        int activeCases = countActiveCases(lawyer);
-        if (caseBeingChanged != null && caseBeingChanged.isActive()
-                && lawyer.equals(caseBeingChanged.getLeadLawyer())) {
-            activeCases--;
+        if (opposingParty == null || opposingParty.isBlank()) {
+            throw new IllegalArgumentException("Opposing party cannot be empty.");
         }
-        if (activeCases >= Lawyer.MAX_ACTIVE_CASES) {
+
+        if (countActiveCases(lawyer) >= Lawyer.MAX_ACTIVE_CASES) {
             throw new CaseLoadExceededException(lawyer.getName() + " already has "
                     + Lawyer.MAX_ACTIVE_CASES + " active cases.");
         }
 
-        if (opposingParty != null) {
-            for (LegalCase legalCase : cases) {
-                boolean sameLawyer = legalCase.isActive() && legalCase.getLeadLawyer().equals(lawyer);
-                boolean opposingIsOwnClient = legalCase.getClient().getName().equalsIgnoreCase(opposingParty.trim());
-                if (sameLawyer && opposingIsOwnClient) {
-                    throw new ConflictOfInterestException(lawyer.getName() + " already represents "
-                            + opposingParty.trim() + " and cannot act against them.");
-                }
+        for (LegalCase legalCase : cases) {
+            boolean sameLawyer = legalCase.isActive() && legalCase.getLeadLawyer().equals(lawyer);
+            boolean opposingIsOwnClient = legalCase.getClient().getName().equalsIgnoreCase(opposingParty.trim());
+            if (sameLawyer && opposingIsOwnClient) {
+                throw new ConflictOfInterestException(lawyer.getName() + " already represents "
+                        + opposingParty.trim() + " and cannot act against them.");
             }
         }
     }
