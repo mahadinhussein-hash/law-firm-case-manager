@@ -15,6 +15,7 @@ import com.mahadin.lawfirm.exception.ConflictOfInterestException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LawFirmService {
@@ -100,6 +101,39 @@ public class LawFirmService {
 
     public List<LegalCase> getCases() {
         return Collections.unmodifiableList(cases);
+    }
+
+    public List<LegalCase> getCasesSorted(Comparator<LegalCase> order) {
+        List<LegalCase> sorted = new ArrayList<>(cases);
+        sorted.sort(order);
+        return sorted;
+    }
+
+    public Client findClient(int id) {
+        for (Client client : clients) {
+            if (client.getId() == id) {
+                return client;
+            }
+        }
+        throw new IllegalArgumentException("No client with id " + id + ".");
+    }
+
+    public Lawyer findLawyer(int id) {
+        for (Lawyer lawyer : lawyers) {
+            if (lawyer.getId() == id) {
+                return lawyer;
+            }
+        }
+        throw new IllegalArgumentException("No lawyer with id " + id + ".");
+    }
+
+    public LegalCase findCase(int id) {
+        for (LegalCase legalCase : cases) {
+            if (legalCase.getId() == id) {
+                return legalCase;
+            }
+        }
+        throw new IllegalArgumentException("No case with id " + id + ".");
     }
 
     private LegalCase register(LegalCase legalCase) {
