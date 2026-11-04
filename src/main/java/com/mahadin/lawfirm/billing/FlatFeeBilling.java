@@ -1,6 +1,7 @@
 package com.mahadin.lawfirm.billing;
 
 import com.mahadin.lawfirm.domain.LegalCase;
+import com.mahadin.lawfirm.exception.ValidationException;
 
 public class FlatFeeBilling implements BillingStrategy {
 
@@ -10,7 +11,7 @@ public class FlatFeeBilling implements BillingStrategy {
 
     public FlatFeeBilling(double amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Flat fee must be greater than 0.");
+            throw new ValidationException("Flat fee must be greater than 0.");
         }
         this.amount = amount;
     }

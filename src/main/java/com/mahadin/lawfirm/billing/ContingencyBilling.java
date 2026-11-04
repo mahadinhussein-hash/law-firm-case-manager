@@ -2,6 +2,7 @@ package com.mahadin.lawfirm.billing;
 
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.LegalCase;
+import com.mahadin.lawfirm.exception.ValidationException;
 
 public class ContingencyBilling implements BillingStrategy {
 
@@ -12,10 +13,10 @@ public class ContingencyBilling implements BillingStrategy {
 
     public ContingencyBilling(double percentage, double settlementAmount) {
         if (percentage <= 0 || percentage > 100) {
-            throw new IllegalArgumentException("Percentage must be between 0 and 100.");
+            throw new ValidationException("Percentage must be between 0 and 100.");
         }
         if (settlementAmount < 0) {
-            throw new IllegalArgumentException("Settlement amount cannot be negative.");
+            throw new ValidationException("Settlement amount cannot be negative.");
         }
         this.percentage = percentage;
         this.settlementAmount = settlementAmount;
