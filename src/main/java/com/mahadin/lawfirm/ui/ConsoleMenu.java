@@ -9,8 +9,10 @@ import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
+import com.mahadin.lawfirm.persistence.DataStore;
 import com.mahadin.lawfirm.service.LawFirmService;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Comparator;
@@ -20,15 +22,18 @@ import java.util.Scanner;
 public class ConsoleMenu {
 
     private final LawFirmService service;
+    private final DataStore dataStore;
     private final Scanner scanner;
 
-    public ConsoleMenu(LawFirmService service, Scanner scanner) {
+    public ConsoleMenu(LawFirmService service, DataStore dataStore, Scanner scanner) {
         this.service = service;
+        this.dataStore = dataStore;
         this.scanner = scanner;
     }
 
     public void run() {
         System.out.println("=== Law Firm Case Manager ===");
+        loadData();
         boolean running = true;
         while (running) {
             printMenu();
@@ -52,7 +57,28 @@ public class ConsoleMenu {
                 System.out.println("Refused: " + e.getMessage());
             }
         }
+        saveData();
         System.out.println("Goodbye!");
+    }
+
+    private void loadData() {
+        try {
+            service.importData(dataStore.load());
+            System.out.println("Loaded " + service.getClients().size() + " clients, "
+                    + service.getLawyers().size() + " lawyers and "
+                    + service.getCases().size() + " cases.");
+        } catch (IOException e) {
+            System.out.println("Could not load saved data (" + e.getMessage() + "). Starting with empty data.");
+        }
+    }
+
+    private void saveData() {
+        try {
+            dataStore.save(service.exportData());
+            System.out.println("Data saved.");
+        } catch (IOException e) {
+            System.out.println("Could not save data: " + e.getMessage());
+        }
     }
 
     private void printMenu() {
@@ -65,7 +91,7 @@ public class ConsoleMenu {
         System.out.println("6. Choose billing method for a case");
         System.out.println("7. Close a case");
         System.out.println("8. List cases (sorted)");
-        System.out.println("0. Exit");
+        System.out.println("0. Save and exit");
     }
 
     private void addClient() {
