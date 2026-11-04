@@ -1,6 +1,6 @@
 package com.mahadin.lawfirm.exception;
 
-public class CaseLoadExceededException extends Exception {
+public class CaseLoadExceededException extends LawFirmException {
 
     private static final long serialVersionUID = 1L;
 

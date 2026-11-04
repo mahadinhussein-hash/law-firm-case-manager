@@ -1,6 +1,6 @@
 package com.mahadin.lawfirm.exception;
 
-public class ConflictOfInterestException extends Exception {
+public class ConflictOfInterestException extends LawFirmException {
 
     private static final long serialVersionUID = 1L;
 
