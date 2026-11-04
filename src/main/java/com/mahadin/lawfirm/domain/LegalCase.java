@@ -2,6 +2,8 @@ package com.mahadin.lawfirm.domain;
 
 import com.mahadin.lawfirm.billing.BillingStrategy;
 import com.mahadin.lawfirm.billing.HourlyBilling;
+import com.mahadin.lawfirm.exception.CaseClosedException;
+import com.mahadin.lawfirm.exception.ValidationException;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -27,19 +29,19 @@ public abstract class LegalCase implements Serializable {
     protected LegalCase(int id, String title, Client client, String opposingParty,
                         LocalDate deadline, Lawyer leadLawyer) {
         if (id <= 0) {
-            throw new IllegalArgumentException("Case id must be positive.");
+            throw new ValidationException("Case id must be positive.");
         }
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Case title cannot be empty.");
+            throw new ValidationException("Case title cannot be empty.");
         }
         if (client == null) {
-            throw new IllegalArgumentException("A case must belong to a client.");
+            throw new ValidationException("A case must belong to a client.");
         }
         if (opposingParty == null || opposingParty.isBlank()) {
-            throw new IllegalArgumentException("Opposing party cannot be empty.");
+            throw new ValidationException("Opposing party cannot be empty.");
         }
         if (deadline == null) {
-            throw new IllegalArgumentException("Deadline is required.");
+            throw new ValidationException("Deadline is required.");
         }
         this.id = id;
         this.title = title.trim();
@@ -97,10 +99,10 @@ public abstract class LegalCase implements Serializable {
 
     public void addTimeEntry(TimeEntry entry) {
         if (entry == null) {
-            throw new IllegalArgumentException("Time entry cannot be null.");
+            throw new ValidationException("Time entry cannot be null.");
         }
         if (!isActive()) {
-            throw new IllegalStateException("Cannot log hours on a closed case.");
+            throw new CaseClosedException("Cannot log hours on a closed case.");
         }
         timeEntries.add(entry);
     }
@@ -115,7 +117,7 @@ public abstract class LegalCase implements Serializable {
 
     public void setBillingStrategy(BillingStrategy billingStrategy) {
         if (billingStrategy == null) {
-            throw new IllegalArgumentException("Billing strategy cannot be null.");
+            throw new ValidationException("Billing strategy cannot be null.");
         }
         this.billingStrategy = billingStrategy;
     }
@@ -126,17 +128,17 @@ public abstract class LegalCase implements Serializable {
 
     public void close(CaseStatus outcome) {
         if (outcome == null || outcome == CaseStatus.OPEN) {
-            throw new IllegalArgumentException("Outcome must be WON, LOST or SETTLED.");
+            throw new ValidationException("Outcome must be WON, LOST or SETTLED.");
         }
         if (!isActive()) {
-            throw new IllegalStateException("Case is already closed.");
+            throw new CaseClosedException("Case is already closed.");
         }
         this.status = outcome;
     }
 
     public void setLeadLawyer(Lawyer leadLawyer) {
         if (leadLawyer == null) {
-            throw new IllegalArgumentException("A case must have a lead lawyer.");
+            throw new ValidationException("A case must have a lead lawyer.");
         }
         this.leadLawyer = leadLawyer;
     }
