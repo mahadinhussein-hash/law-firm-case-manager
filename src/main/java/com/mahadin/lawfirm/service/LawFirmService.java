@@ -11,6 +11,7 @@ import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.domain.TimeEntry;
 import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
+import com.mahadin.lawfirm.persistence.FirmData;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -134,6 +135,32 @@ public class LawFirmService {
             }
         }
         throw new IllegalArgumentException("No case with id " + id + ".");
+    }
+
+    public FirmData exportData() {
+        return new FirmData(clients, lawyers, cases);
+    }
+
+    public void importData(FirmData data) {
+        clients.clear();
+        lawyers.clear();
+        cases.clear();
+        clients.addAll(data.getClients());
+        lawyers.addAll(data.getLawyers());
+        cases.addAll(data.getCases());
+
+        nextClientId = 1;
+        for (Client client : clients) {
+            nextClientId = Math.max(nextClientId, client.getId() + 1);
+        }
+        nextLawyerId = 1;
+        for (Lawyer lawyer : lawyers) {
+            nextLawyerId = Math.max(nextLawyerId, lawyer.getId() + 1);
+        }
+        nextCaseId = 1;
+        for (LegalCase legalCase : cases) {
+            nextCaseId = Math.max(nextCaseId, legalCase.getId() + 1);
+        }
     }
 
     private LegalCase register(LegalCase legalCase) {
