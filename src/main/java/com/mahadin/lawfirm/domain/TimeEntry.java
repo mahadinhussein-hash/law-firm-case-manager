@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.domain;
 
+import com.mahadin.lawfirm.exception.ValidationException;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -13,13 +15,13 @@ public class TimeEntry implements Serializable {
 
     public TimeEntry(LocalDate date, double hours, String description) {
         if (date == null) {
-            throw new IllegalArgumentException("Date is required.");
+            throw new ValidationException("Date is required.");
         }
         if (hours <= 0 || hours > 24) {
-            throw new IllegalArgumentException("Hours must be between 0 and 24.");
+            throw new ValidationException("Hours must be between 0 and 24.");
         }
         if (description == null || description.isBlank()) {
-            throw new IllegalArgumentException("Description cannot be empty.");
+            throw new ValidationException("Description cannot be empty.");
         }
         this.date = date;
         this.hours = hours;

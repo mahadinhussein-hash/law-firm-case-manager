@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.domain;
 
+import com.mahadin.lawfirm.exception.ValidationException;
+
 import java.time.LocalDate;
 
 public class CriminalCase extends LegalCase {
@@ -12,7 +14,7 @@ public class CriminalCase extends LegalCase {
                         LocalDate deadline, Lawyer leadLawyer, String charge) {
         super(id, title, client, opposingParty, deadline, leadLawyer);
         if (charge == null || charge.isBlank()) {
-            throw new IllegalArgumentException("Charge cannot be empty.");
+            throw new ValidationException("Charge cannot be empty.");
         }
         this.charge = charge.trim();
     }

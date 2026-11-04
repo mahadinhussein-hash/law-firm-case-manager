@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.domain;
 
+import com.mahadin.lawfirm.exception.ValidationException;
+
 import java.time.LocalDate;
 
 public class FamilyCase extends LegalCase {
@@ -12,7 +14,7 @@ public class FamilyCase extends LegalCase {
                       LocalDate deadline, Lawyer leadLawyer, String matterType) {
         super(id, title, client, opposingParty, deadline, leadLawyer);
         if (matterType == null || matterType.isBlank()) {
-            throw new IllegalArgumentException("Matter type cannot be empty.");
+            throw new ValidationException("Matter type cannot be empty.");
         }
         this.matterType = matterType.trim();
     }
