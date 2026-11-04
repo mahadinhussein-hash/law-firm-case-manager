@@ -11,6 +11,7 @@ import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.domain.TimeEntry;
 import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
+import com.mahadin.lawfirm.exception.ValidationException;
 import com.mahadin.lawfirm.persistence.FirmData;
 
 import java.time.LocalDate;
@@ -116,7 +117,7 @@ public class LawFirmService {
                 return client;
             }
         }
-        throw new IllegalArgumentException("No client with id " + id + ".");
+        throw new ValidationException("No client with id " + id + ".");
     }
 
     public Lawyer findLawyer(int id) {
@@ -125,7 +126,7 @@ public class LawFirmService {
                 return lawyer;
             }
         }
-        throw new IllegalArgumentException("No lawyer with id " + id + ".");
+        throw new ValidationException("No lawyer with id " + id + ".");
     }
 
     public LegalCase findCase(int id) {
@@ -134,7 +135,7 @@ public class LawFirmService {
                 return legalCase;
             }
         }
-        throw new IllegalArgumentException("No case with id " + id + ".");
+        throw new ValidationException("No case with id " + id + ".");
     }
 
     public FirmData exportData() {
@@ -172,10 +173,10 @@ public class LawFirmService {
     private void checkCanAssign(Lawyer lawyer, String opposingParty)
             throws CaseLoadExceededException, ConflictOfInterestException {
         if (lawyer == null) {
-            throw new IllegalArgumentException("A lawyer must be chosen.");
+            throw new ValidationException("A lawyer must be chosen.");
         }
         if (opposingParty == null || opposingParty.isBlank()) {
-            throw new IllegalArgumentException("Opposing party cannot be empty.");
+            throw new ValidationException("Opposing party cannot be empty.");
         }
 
         if (countActiveCases(lawyer) >= Lawyer.MAX_ACTIVE_CASES) {
