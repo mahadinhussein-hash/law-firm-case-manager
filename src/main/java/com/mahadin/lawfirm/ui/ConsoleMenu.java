@@ -7,8 +7,11 @@ import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LegalCase;
+import com.mahadin.lawfirm.exception.CaseClosedException;
 import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
+import com.mahadin.lawfirm.exception.LawFirmException;
+import com.mahadin.lawfirm.exception.ValidationException;
 import com.mahadin.lawfirm.persistence.DataStore;
 import com.mahadin.lawfirm.service.LawFirmService;
 
@@ -51,9 +54,9 @@ public class ConsoleMenu {
                     case 0 -> running = false;
                     default -> System.out.println("Unknown option, please try again.");
                 }
-            } catch (IllegalArgumentException | IllegalStateException e) {
+            } catch (ValidationException | CaseClosedException e) {
                 System.out.println("Error: " + e.getMessage());
-            } catch (CaseLoadExceededException | ConflictOfInterestException e) {
+            } catch (LawFirmException e) {
                 System.out.println("Refused: " + e.getMessage());
             }
         }

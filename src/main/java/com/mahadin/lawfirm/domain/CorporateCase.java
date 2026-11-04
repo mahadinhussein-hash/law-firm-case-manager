@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.domain;
 
+import com.mahadin.lawfirm.exception.ValidationException;
+
 import java.time.LocalDate;
 
 public class CorporateCase extends LegalCase {
@@ -12,7 +14,7 @@ public class CorporateCase extends LegalCase {
                          LocalDate deadline, Lawyer leadLawyer, String companyName) {
         super(id, title, client, opposingParty, deadline, leadLawyer);
         if (companyName == null || companyName.isBlank()) {
-            throw new IllegalArgumentException("Company name cannot be empty.");
+            throw new ValidationException("Company name cannot be empty.");
         }
         this.companyName = companyName.trim();
     }

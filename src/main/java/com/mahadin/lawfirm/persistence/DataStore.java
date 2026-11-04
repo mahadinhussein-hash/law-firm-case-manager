@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.persistence;
 
+import com.mahadin.lawfirm.exception.ValidationException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,7 +16,7 @@ public class DataStore {
 
     public DataStore(String filePath) {
         if (filePath == null || filePath.isBlank()) {
-            throw new IllegalArgumentException("File path cannot be empty.");
+            throw new ValidationException("File path cannot be empty.");
         }
         this.filePath = filePath;
     }
