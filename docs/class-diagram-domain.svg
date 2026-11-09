@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1780" height="1500" viewBox="0 0 1780 1500" font-family="Liberation Sans, Arial, Helvetica, sans-serif">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="40" y="46" font-size="24" font-weight="700" fill="#1F2937">Law Firm Case Manager: domain model and billing</text>
+<text x="40" y="70" font-size="14" fill="#64748B">UML class diagram, packages domain and billing. Strategy pattern: LegalCase (context) uses a BillingStrategy.</text>
+<rect x="40" y="1350" width="1700" height="118" rx="10" fill="#F8FAFC" stroke="#CBD5E1"/>
+<polyline points="410,370 410,336 680,336 680,307" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,292 688,307 672,307" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="960,370 960,336 680,336 680,307" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,292 688,307 672,307" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="400,1192 400,1146 680,1146 680,1117" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,1102 688,1117 672,1117" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="680,1192 680,1117" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,1102 688,1117 672,1117" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="960,1192 960,1146 680,1146 680,1117" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,1102 688,1117 672,1117" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="500,680 500,558" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="505.5,569 500,558 494.5,569" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polyline points="848,680 848,518" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="853.5,529 848,518 842.5,529" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polyline points="460,800 360,800" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="371,794.5 360,800 371,805.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polygon points="480,800 470,806.5 460,800 470,793.5" fill="#475569" stroke="#475569" stroke-width="1.4"/>
+<polyline points="480,1030 360,1030" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="371,1024.5 360,1030 371,1035.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polyline points="880,720 1160,720" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="1149,725.5 1160,720 1149,714.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polyline points="1160,770 880,770" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polyline points="891,764.5 880,770 891,775.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polyline points="1065,880 1065,824 1330,824 1330,789" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polygon points="1330,774 1338,789 1322,789" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="1325,880 1325,824 1330,824 1330,789" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polygon points="1330,774 1338,789 1322,789" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="1590,880 1590,824 1330,824 1330,789" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polygon points="1330,774 1338,789 1322,789" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="64,1378 123,1378" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="138,1378 123,1386 123,1370" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="214,1378 273,1378" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polygon points="288,1378 273,1386 273,1370" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="376,1378 450,1378" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="439,1383.5 450,1378 439,1372.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polyline points="568,1378 600,1378" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polyline points="589,1383.5 600,1378 589,1372.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<polygon points="548,1378 558,1371.5 568,1378 558,1384.5" fill="#475569" stroke="#475569" stroke-width="1.4"/>
+<polyline points="716,1378 790,1378" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polyline points="779,1383.5 790,1378 779,1372.5" fill="none" stroke="#475569" stroke-width="1.6"/>
+<rect x="532" y="113" width="300" height="182" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="530" y="110" width="300" height="182" rx="3" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.6"/>
+<path d="M530 110 h300 v46 h-300 z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.6"/>
+<text x="680" y="127" font-size="12" text-anchor="middle" fill="#64748B">«abstract»</text>
+<text x="680" y="147" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937" font-style="italic">Person</text>
+<line x1="530" y1="156" x2="830" y2="156" stroke="#7C3AED" stroke-width="1.2"/>
+<text x="540" y="174.5" font-size="13" fill="#1F2937">-id: int</text>
+<text x="540" y="194.5" font-size="13" fill="#1F2937">-name: String</text>
+<line x1="530" y1="204" x2="830" y2="204" stroke="#7C3AED" stroke-width="1.2"/>
+<text x="540" y="222.5" font-size="13" fill="#1F2937">+getId(): int</text>
+<text x="540" y="242.5" font-size="13" fill="#1F2937">+getName(): String</text>
+<text x="540" y="262.5" font-size="13" fill="#1F2937">+equals(Object): boolean</text>
+<text x="540" y="282.5" font-size="13" fill="#1F2937">+hashCode(): int</text>
+<rect x="262" y="373" width="300" height="188" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="260" y="370" width="300" height="188" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M260 370 h300 v32 h-300 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="410" y="392" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">Client</text>
+<line x1="260" y1="402" x2="560" y2="402" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="270" y="420.5" font-size="13" fill="#1F2937">-email: String</text>
+<text x="270" y="440.5" font-size="13" fill="#1F2937">-phone: String</text>
+<line x1="260" y1="450" x2="560" y2="450" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="270" y="468.5" font-size="13" fill="#1F2937">+getEmail(): String</text>
+<text x="270" y="488.5" font-size="13" fill="#1F2937">+getPhone(): String</text>
+<text x="270" y="508.5" font-size="13" fill="#1F2937">+setEmail(String): void</text>
+<text x="270" y="528.5" font-size="13" fill="#1F2937">+setPhone(String): void</text>
+<text x="270" y="548.5" font-size="13" fill="#1F2937">+toString(): String</text>
+<rect x="802" y="373" width="320" height="148" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="800" y="370" width="320" height="148" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M800 370 h320 v32 h-320 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="960" y="392" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">Lawyer</text>
+<line x1="800" y1="402" x2="1120" y2="402" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="810" y="420.5" font-size="13" fill="#1F2937" text-decoration="underline">+MAX_ACTIVE_CASES: int = 5</text>
+<text x="810" y="440.5" font-size="13" fill="#1F2937">-hourlyRate: double</text>
+<line x1="800" y1="450" x2="1120" y2="450" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="810" y="468.5" font-size="13" fill="#1F2937">+getHourlyRate(): double</text>
+<text x="810" y="488.5" font-size="13" fill="#1F2937">+setHourlyRate(double): void</text>
+<text x="810" y="508.5" font-size="13" fill="#1F2937">+toString(): String</text>
+<rect x="482" y="683" width="400" height="422" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="480" y="680" width="400" height="422" rx="3" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.6"/>
+<path d="M480 680 h400 v46 h-400 z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.6"/>
+<text x="680" y="697" font-size="12" text-anchor="middle" fill="#64748B">«abstract»</text>
+<text x="680" y="717" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937" font-style="italic">LegalCase</text>
+<line x1="480" y1="726" x2="880" y2="726" stroke="#7C3AED" stroke-width="1.2"/>
+<text x="490" y="744.5" font-size="13" fill="#1F2937">-id: int</text>
+<text x="490" y="764.5" font-size="13" fill="#1F2937">-title: String</text>
+<text x="490" y="784.5" font-size="13" fill="#1F2937">-client: Client</text>
+<text x="490" y="804.5" font-size="13" fill="#1F2937">-opposingParty: String</text>
+<text x="490" y="824.5" font-size="13" fill="#1F2937">-deadline: LocalDate</text>
+<text x="490" y="844.5" font-size="13" fill="#1F2937">-leadLawyer: Lawyer</text>
+<text x="490" y="864.5" font-size="13" fill="#1F2937">-status: CaseStatus</text>
+<text x="490" y="884.5" font-size="13" fill="#1F2937">-timeEntries: List&lt;TimeEntry&gt;</text>
+<text x="490" y="904.5" font-size="13" fill="#1F2937">-billingStrategy: BillingStrategy</text>
+<line x1="480" y1="914" x2="880" y2="914" stroke="#7C3AED" stroke-width="1.2"/>
+<text x="490" y="932.5" font-size="13" fill="#1F2937" font-style="italic">+getCaseType(): String</text>
+<text x="490" y="952.5" font-size="13" fill="#1F2937" font-style="italic">+getRateMultiplier(): double</text>
+<text x="490" y="972.5" font-size="13" fill="#1F2937">+isActive(): boolean</text>
+<text x="490" y="992.5" font-size="13" fill="#1F2937">+getTotalHours(): double</text>
+<text x="490" y="1012.5" font-size="13" fill="#1F2937">+addTimeEntry(TimeEntry): void</text>
+<text x="490" y="1032.5" font-size="13" fill="#1F2937">+setBillingStrategy(BillingStrategy): void</text>
+<text x="490" y="1052.5" font-size="13" fill="#1F2937">+calculateFee(): double</text>
+<text x="490" y="1072.5" font-size="13" fill="#1F2937">+close(CaseStatus): void</text>
+<text x="490" y="1092.5" font-size="13" fill="#1F2937">+setLeadLawyer(Lawyer): void</text>
+<rect x="277" y="1195" width="250" height="128" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="275" y="1192" width="250" height="128" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M275 1192 h250 v32 h-250 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="400" y="1214" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">CriminalCase</text>
+<line x1="275" y1="1224" x2="525" y2="1224" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="285" y="1242.5" font-size="13" fill="#1F2937">-charge: String</text>
+<line x1="275" y1="1252" x2="525" y2="1252" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="285" y="1270.5" font-size="13" fill="#1F2937">+getCharge(): String</text>
+<text x="285" y="1290.5" font-size="13" fill="#1F2937">+getCaseType(): String</text>
+<text x="285" y="1310.5" font-size="13" fill="#1F2937">+getRateMultiplier(): double</text>
+<rect x="557" y="1195" width="250" height="128" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="555" y="1192" width="250" height="128" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M555 1192 h250 v32 h-250 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="680" y="1214" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">FamilyCase</text>
+<line x1="555" y1="1224" x2="805" y2="1224" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="565" y="1242.5" font-size="13" fill="#1F2937">-matterType: String</text>
+<line x1="555" y1="1252" x2="805" y2="1252" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="565" y="1270.5" font-size="13" fill="#1F2937">+getMatterType(): String</text>
+<text x="565" y="1290.5" font-size="13" fill="#1F2937">+getCaseType(): String</text>
+<text x="565" y="1310.5" font-size="13" fill="#1F2937">+getRateMultiplier(): double</text>
+<rect x="837" y="1195" width="250" height="128" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="835" y="1192" width="250" height="128" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M835 1192 h250 v32 h-250 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="960" y="1214" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">CorporateCase</text>
+<line x1="835" y1="1224" x2="1085" y2="1224" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="845" y="1242.5" font-size="13" fill="#1F2937">-companyName: String</text>
+<line x1="835" y1="1252" x2="1085" y2="1252" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="845" y="1270.5" font-size="13" fill="#1F2937">+getCompanyName(): String</text>
+<text x="845" y="1290.5" font-size="13" fill="#1F2937">+getCaseType(): String</text>
+<text x="845" y="1310.5" font-size="13" fill="#1F2937">+getRateMultiplier(): double</text>
+<rect x="102" y="743" width="260" height="188" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="100" y="740" width="260" height="188" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M100 740 h260 v32 h-260 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="230" y="762" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">TimeEntry</text>
+<line x1="100" y1="772" x2="360" y2="772" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="110" y="790.5" font-size="13" fill="#1F2937">-date: LocalDate</text>
+<text x="110" y="810.5" font-size="13" fill="#1F2937">-hours: double</text>
+<text x="110" y="830.5" font-size="13" fill="#1F2937">-description: String</text>
+<line x1="100" y1="840" x2="360" y2="840" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="110" y="858.5" font-size="13" fill="#1F2937">+getDate(): LocalDate</text>
+<text x="110" y="878.5" font-size="13" fill="#1F2937">+getHours(): double</text>
+<text x="110" y="898.5" font-size="13" fill="#1F2937">+getDescription(): String</text>
+<text x="110" y="918.5" font-size="13" fill="#1F2937">+toString(): String</text>
+<rect x="102" y="963" width="260" height="134" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="100" y="960" width="260" height="134" rx="3" fill="#FFFFFF" stroke="#D97706" stroke-width="1.6"/>
+<path d="M100 960 h260 v46 h-260 z" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
+<text x="230" y="977" font-size="12" text-anchor="middle" fill="#64748B">«enumeration»</text>
+<text x="230" y="997" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">CaseStatus</text>
+<line x1="100" y1="1006" x2="360" y2="1006" stroke="#D97706" stroke-width="1.2"/>
+<text x="110" y="1024.5" font-size="13" fill="#1F2937">OPEN</text>
+<text x="110" y="1044.5" font-size="13" fill="#1F2937">WON</text>
+<text x="110" y="1064.5" font-size="13" fill="#1F2937">LOST</text>
+<text x="110" y="1084.5" font-size="13" fill="#1F2937">SETTLED</text>
+<rect x="1162" y="683" width="340" height="94" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="1160" y="680" width="340" height="94" rx="3" fill="#FFFFFF" stroke="#059669" stroke-width="1.6"/>
+<path d="M1160 680 h340 v46 h-340 z" fill="#D1FAE5" stroke="#059669" stroke-width="1.6"/>
+<text x="1330" y="697" font-size="12" text-anchor="middle" fill="#64748B">«interface»</text>
+<text x="1330" y="717" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">BillingStrategy</text>
+<line x1="1160" y1="726" x2="1500" y2="726" stroke="#059669" stroke-width="1.2"/>
+<text x="1170" y="744.5" font-size="13" fill="#1F2937">+calculateFee(LegalCase): double</text>
+<text x="1170" y="764.5" font-size="13" fill="#1F2937">+getName(): String</text>
+<rect x="952" y="883" width="230" height="88" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="950" y="880" width="230" height="88" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M950 880 h230 v32 h-230 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="1065" y="902" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">HourlyBilling</text>
+<line x1="950" y1="912" x2="1180" y2="912" stroke="#3B82F6" stroke-width="1.2"/>
+<line x1="950" y1="920" x2="1180" y2="920" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="960" y="938.5" font-size="13" fill="#1F2937">+calculateFee(LegalCase): double</text>
+<text x="960" y="958.5" font-size="13" fill="#1F2937">+getName(): String</text>
+<rect x="1212" y="883" width="230" height="108" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="1210" y="880" width="230" height="108" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M1210 880 h230 v32 h-230 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="1325" y="902" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">FlatFeeBilling</text>
+<line x1="1210" y1="912" x2="1440" y2="912" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="1220" y="930.5" font-size="13" fill="#1F2937">-amount: double</text>
+<line x1="1210" y1="940" x2="1440" y2="940" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="1220" y="958.5" font-size="13" fill="#1F2937">+calculateFee(LegalCase): double</text>
+<text x="1220" y="978.5" font-size="13" fill="#1F2937">+getName(): String</text>
+<rect x="1472" y="883" width="240" height="128" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="1470" y="880" width="240" height="128" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
+<path d="M1470 880 h240 v32 h-240 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
+<text x="1590" y="902" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">ContingencyBilling</text>
+<line x1="1470" y1="912" x2="1710" y2="912" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="1480" y="930.5" font-size="13" fill="#1F2937">-percentage: double</text>
+<text x="1480" y="950.5" font-size="13" fill="#1F2937">-settlementAmount: double</text>
+<line x1="1470" y1="960" x2="1710" y2="960" stroke="#3B82F6" stroke-width="1.2"/>
+<text x="1480" y="978.5" font-size="13" fill="#1F2937">+calculateFee(LegalCase): double</text>
+<text x="1480" y="998.5" font-size="13" fill="#1F2937">+getName(): String</text>
+<text x="508" y="582" font-size="12" text-anchor="start" fill="#1F2937">client</text>
+<text x="492" y="582" font-size="12" text-anchor="end" fill="#64748B">1</text>
+<text x="508" y="672" font-size="12" text-anchor="start" fill="#64748B">0..*</text>
+<text x="856" y="542" font-size="12" text-anchor="start" fill="#1F2937">leadLawyer</text>
+<text x="840" y="542" font-size="12" text-anchor="end" fill="#64748B">1</text>
+<text x="856" y="672" font-size="12" text-anchor="start" fill="#64748B">0..*</text>
+<text x="412" y="792" font-size="12" text-anchor="middle" fill="#1F2937">timeEntries</text>
+<text x="382" y="818" font-size="12" text-anchor="middle" fill="#64748B">0..*</text>
+<text x="420" y="1022" font-size="12" text-anchor="middle" fill="#1F2937">status</text>
+<text x="374" y="1048" font-size="12" text-anchor="middle" fill="#64748B">1</text>
+<text x="1020" y="712" font-size="12" text-anchor="middle" fill="#1F2937">billingStrategy</text>
+<text x="1146" y="712" font-size="12" text-anchor="middle" fill="#64748B">1</text>
+<text x="1020" y="788" font-size="12" text-anchor="middle" fill="#64748B" font-style="italic">«uses»</text>
+<text x="64" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Inheritance (extends)</text>
+<text x="214" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Implements an interface</text>
+<text x="376" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Association (field)</text>
+<text x="526" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Composition (owns the parts)</text>
+<text x="716" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Dependency (uses)</text>
+<text x="64" y="1434" font-size="12" text-anchor="start" fill="#1F2937">Visibility:  + public   - private   # protected      Underlined = static      Italic = abstract</text>
+<text x="64" y="1456" font-size="12" text-anchor="start" fill="#64748B">Constructors and plain getters/setters are left out. Person, LegalCase, FirmData and BillingStrategy are Serializable.</text>
+</svg>

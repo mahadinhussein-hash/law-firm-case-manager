@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="960" viewBox="0 0 1500 960" font-family="Liberation Sans, Arial, Helvetica, sans-serif">
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="40" y="46" font-size="24" font-weight="700" fill="#1F2937">Law Firm Case Manager: exception hierarchy</text>
+<text x="40" y="70" font-size="14" fill="#64748B">UML class diagram, package exception. Unchecked exceptions for bad input and state, checked ones for business rules.</text>
+<polyline points="260,330 260,236 780,236 780,181" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="780,166 788,181 772,181" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="940,330 940,236 780,236 780,181" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="780,166 788,181 772,181" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="1340,330 1340,236 780,236 780,181" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="780,166 788,181 772,181" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="170,590 170,520 260,520 260,391" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="260,376 268,391 252,391" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="460,590 460,520 260,520 260,391" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="260,376 268,391 252,391" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="790,590 790,520 940,520 940,427" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="940,412 948,427 932,427" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="1130,590 1130,520 940,520 940,427" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="940,412 948,427 932,427" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="170,672 170,760" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polyline points="460,672 460,760" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polyline points="790,672 790,760" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polyline points="1130,672 1130,760" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<polyline points="1340,376 1340,470" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
+<rect x="652" y="123" width="260" height="46" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="650" y="120" width="260" height="46" rx="3" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.6"/>
+<path d="M650 120 h260 v46 h-260 z" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.6"/>
+<text x="780" y="137" font-size="12" text-anchor="middle" fill="#64748B">«java.lang»</text>
+<text x="780" y="157" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">Exception</text>
+<rect x="132" y="333" width="260" height="46" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="130" y="330" width="260" height="46" rx="3" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.6"/>
+<path d="M130 330 h260 v46 h-260 z" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.6"/>
+<text x="260" y="347" font-size="12" text-anchor="middle" fill="#64748B">«java.lang»  unchecked</text>
+<text x="260" y="367" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">RuntimeException</text>
+<rect x="802" y="333" width="280" height="82" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="800" y="330" width="280" height="82" rx="3" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+<path d="M800 330 h280 v46 h-280 z" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+<text x="940" y="347" font-size="12" text-anchor="middle" fill="#64748B">«checked»</text>
+<text x="940" y="367" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">LawFirmException</text>
+<line x1="800" y1="376" x2="1080" y2="376" stroke="#DC2626" stroke-width="1.2"/>
+<line x1="800" y1="384" x2="1080" y2="384" stroke="#DC2626" stroke-width="1.2"/>
+<text x="810" y="402.5" font-size="13" fill="#1F2937">+LawFirmException(String)</text>
+<rect x="1232" y="333" width="220" height="46" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="1230" y="330" width="220" height="46" rx="3" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.6"/>
+<path d="M1230 330 h220 v46 h-220 z" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.6"/>
+<text x="1340" y="347" font-size="12" text-anchor="middle" fill="#64748B">«java.io»  checked</text>
+<text x="1340" y="367" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">IOException</text>
+<rect x="42" y="593" width="260" height="82" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="40" y="590" width="260" height="82" rx="3" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+<path d="M40 590 h260 v46 h-260 z" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+<text x="170" y="607" font-size="12" text-anchor="middle" fill="#64748B">«unchecked»</text>
+<text x="170" y="627" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">ValidationException</text>
+<line x1="40" y1="636" x2="300" y2="636" stroke="#DC2626" stroke-width="1.2"/>
+<line x1="40" y1="644" x2="300" y2="644" stroke="#DC2626" stroke-width="1.2"/>
+<text x="50" y="662.5" font-size="13" fill="#1F2937">+ValidationException(String)</text>
+<rect x="332" y="593" width="260" height="82" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="330" y="590" width="260" height="82" rx="3" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+<path d="M330 590 h260 v46 h-260 z" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+<text x="460" y="607" font-size="12" text-anchor="middle" fill="#64748B">«unchecked»</text>
+<text x="460" y="627" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">CaseClosedException</text>
+<line x1="330" y1="636" x2="590" y2="636" stroke="#DC2626" stroke-width="1.2"/>
+<line x1="330" y1="644" x2="590" y2="644" stroke="#DC2626" stroke-width="1.2"/>
+<text x="340" y="662.5" font-size="13" fill="#1F2937">+CaseClosedException(String)</text>
+<rect x="642" y="593" width="300" height="82" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="640" y="590" width="300" height="82" rx="3" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+<path d="M640 590 h300 v46 h-300 z" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+<text x="790" y="607" font-size="12" text-anchor="middle" fill="#64748B">«checked»</text>
+<text x="790" y="627" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">CaseLoadExceededException</text>
+<line x1="640" y1="636" x2="940" y2="636" stroke="#DC2626" stroke-width="1.2"/>
+<line x1="640" y1="644" x2="940" y2="644" stroke="#DC2626" stroke-width="1.2"/>
+<text x="650" y="662.5" font-size="13" fill="#1F2937">+CaseLoadExceededException(String)</text>
+<rect x="972" y="593" width="320" height="82" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="970" y="590" width="320" height="82" rx="3" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.6"/>
+<path d="M970 590 h320 v46 h-320 z" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.6"/>
+<text x="1130" y="607" font-size="12" text-anchor="middle" fill="#64748B">«checked»</text>
+<text x="1130" y="627" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">ConflictOfInterestException</text>
+<line x1="970" y1="636" x2="1290" y2="636" stroke="#DC2626" stroke-width="1.2"/>
+<line x1="970" y1="644" x2="1290" y2="644" stroke="#DC2626" stroke-width="1.2"/>
+<text x="980" y="662.5" font-size="13" fill="#1F2937">+ConflictOfInterestException(String)</text>
+<path d="M40 760 h246 l14 14 v68 h-260 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
+<path d="M286 760 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+<text x="50" y="780" font-size="12" fill="#1F2937">Bad input or bad state:</text>
+<text x="50" y="797" font-size="12" fill="#1F2937">empty name, rate &lt;= 0, bad email,</text>
+<text x="50" y="814" font-size="12" fill="#1F2937">unknown id. Thrown by domain,</text>
+<text x="50" y="831" font-size="12" fill="#1F2937">billing, service and DataStore.</text>
+<path d="M330 760 h246 l14 14 v51 h-260 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
+<path d="M576 760 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+<text x="340" y="780" font-size="12" fill="#1F2937">Logging hours on a closed case,</text>
+<text x="340" y="797" font-size="12" fill="#1F2937">or closing a case twice.</text>
+<text x="340" y="814" font-size="12" fill="#1F2937">Thrown by LegalCase.</text>
+<path d="M640 760 h286 l14 14 v51 h-300 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
+<path d="M926 760 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+<text x="650" y="780" font-size="12" fill="#1F2937">Lawyer already has 5 active</text>
+<text x="650" y="797" font-size="12" fill="#1F2937">cases (Lawyer.MAX_ACTIVE_CASES).</text>
+<text x="650" y="814" font-size="12" fill="#1F2937">Thrown by LawFirmService.</text>
+<path d="M970 760 h306 l14 14 v51 h-320 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
+<path d="M1276 760 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+<text x="980" y="780" font-size="12" fill="#1F2937">Lawyer already represents the</text>
+<text x="980" y="797" font-size="12" fill="#1F2937">opposing party as a client.</text>
+<text x="980" y="814" font-size="12" fill="#1F2937">Thrown by LawFirmService.</text>
+<path d="M1200 470 h236 l14 14 v34 h-250 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
+<path d="M1436 470 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+<text x="1210" y="490" font-size="12" fill="#1F2937">save() / load() in DataStore throw it</text>
+<text x="1210" y="507" font-size="12" fill="#1F2937">when the file cannot be written or read.</text>
+<path d="M40 880 h1396 l14 14 v17 h-1410 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
+<path d="M1436 880 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
+<text x="50" y="900" font-size="12" fill="#1F2937">ConsoleMenu catches ValidationException and CaseClosedException (together), LawFirmException, and IOException, and prints the message instead of crashing.</text>
+</svg>
