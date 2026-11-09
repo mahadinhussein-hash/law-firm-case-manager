@@ -27,7 +27,8 @@ public class DataStore {
         if (folder != null) {
             folder.mkdirs();
         }
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+        try (FileOutputStream fileOut = new FileOutputStream(file);
+             ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(data);
         }
     }
@@ -37,7 +38,8 @@ public class DataStore {
         if (!file.exists()) {
             return new FirmData(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         }
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
+        try (FileInputStream fileIn = new FileInputStream(file);
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
             return (FirmData) in.readObject();
         } catch (ClassNotFoundException | ClassCastException e) {
             throw new IOException("The save file is not in the expected format.", e);
