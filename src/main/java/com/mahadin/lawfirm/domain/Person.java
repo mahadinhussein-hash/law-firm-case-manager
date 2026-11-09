@@ -1,9 +1,9 @@
-package com.mahadin.lawfirm.domain; // package that groups classes together
+package com.mahadin.lawfirm.domain;
 
 import com.mahadin.lawfirm.exception.ValidationException;
 
-import java.io.Serializable; // import allows me to use Serializable instead of full name
-import java.util.Objects; // imports helper methods for working with objects
+import java.io.Serializable;
+import java.util.Objects;
 
 public abstract class Person implements Serializable {
 
@@ -23,7 +23,6 @@ public abstract class Person implements Serializable {
         this.name = name.trim();
     }
 
-    //public means other classes can use this method to return this data
     public int getId() {
         return id;
     }
@@ -32,9 +31,6 @@ public abstract class Person implements Serializable {
         return name;
     }
 
-//This method compares two objects and returns true if they are the same kind of person with the same ID
-    // used my own method overide doubles checks if it was done correctly
-    //my method checks if ids are equal normal checks if they are the exact same one
     @Override
     public boolean equals(Object other) {
         if (this == other) {
@@ -47,7 +43,6 @@ public abstract class Person implements Serializable {
         return id == person.id;
     }
 
-//calculate the hashcode and use the id to get the hash code
     @Override
     public int hashCode() {
         return Objects.hash(id);
