@@ -175,7 +175,19 @@ The two firm-rule exceptions are **checked** because breaking a firm rule is a n
 
 ## UML class diagram
 
-The class diagram is in the [`docs/`](docs/) folder.
+The class diagrams are in the [`docs/`](docs/) folder as three views. The editable source is [`docs/class-diagram.drawio`](docs/class-diagram.drawio) (open it at diagrams.net, one page per view).
+
+**Domain model and billing** (Strategy pattern: `LegalCase` uses a `BillingStrategy`)
+
+![Domain model and billing](docs/class-diagram-domain.svg)
+
+**Application layers**
+
+![Application layers](docs/class-diagram-application.svg)
+
+**Exception hierarchy**
+
+![Exception hierarchy](docs/class-diagram-exceptions.svg)
 
 ## Contributor
 
