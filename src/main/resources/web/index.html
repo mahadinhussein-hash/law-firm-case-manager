@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Law Firm Case Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+  <div class="container">
+    <span class="navbar-brand mb-0 h1">Law Firm Case Manager</span>
+  </div>
+</nav>
+
+<div class="container pb-5">
+
+  <div id="message" class="alert d-none" role="alert"></div>
+
+  <div class="row g-4 mb-4">
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Add client</div>
+        <form class="card-body" data-url="/api/client">
+          <input class="form-control mb-2" name="name" placeholder="Name" required>
+          <input class="form-control mb-2" name="email" placeholder="Email" required>
+          <input class="form-control mb-3" name="phone" placeholder="Phone" required>
+          <button class="btn btn-primary">Add client</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Add lawyer</div>
+        <form class="card-body" data-url="/api/lawyer">
+          <input class="form-control mb-2" name="name" placeholder="Name" required>
+          <input class="form-control mb-3" name="rate" type="number" step="0.01" placeholder="Hourly rate (EUR)" required>
+          <button class="btn btn-primary">Add lawyer</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Open a case</div>
+        <form class="card-body" data-url="/api/case">
+          <select class="form-select mb-2" name="type" id="caseType">
+            <option value="criminal">Criminal</option>
+            <option value="family">Family</option>
+            <option value="corporate">Corporate</option>
+          </select>
+          <input class="form-control mb-2" name="title" placeholder="Title" required>
+          <select class="form-select mb-2" name="clientId" id="caseClient" required></select>
+          <input class="form-control mb-2" name="opposingParty" placeholder="Opposing party" required>
+          <input class="form-control mb-2" name="deadline" type="date" required>
+          <select class="form-select mb-2" name="lawyerId" id="caseLawyer" required></select>
+          <input class="form-control mb-3" name="extra" id="caseExtra" placeholder="Charge" required>
+          <button class="btn btn-primary">Open case</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Log hours</div>
+        <form class="card-body" data-url="/api/hours">
+          <select class="form-select mb-2" name="caseId" data-cases required></select>
+          <input class="form-control mb-2" name="date" type="date" required>
+          <input class="form-control mb-2" name="hours" type="number" step="0.25" placeholder="Hours" required>
+          <input class="form-control mb-3" name="description" placeholder="Description" required>
+          <button class="btn btn-primary">Log hours</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Choose billing method</div>
+        <form class="card-body" data-url="/api/billing">
+          <select class="form-select mb-2" name="caseId" data-cases required></select>
+          <select class="form-select mb-2" name="method" id="billingMethod">
+            <option value="hourly">Hourly</option>
+            <option value="flat">Flat fee</option>
+            <option value="contingency">Contingency</option>
+          </select>
+          <input class="form-control mb-2 d-none" name="amount" type="number" step="0.01" placeholder="Flat fee amount (EUR)">
+          <input class="form-control mb-2 d-none" name="percentage" type="number" step="0.01" placeholder="Percentage of settlement">
+          <input class="form-control mb-3 d-none" name="settlement" type="number" step="0.01" placeholder="Settlement amount (EUR)">
+          <button class="btn btn-primary">Set billing</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100">
+        <div class="card-header">Close a case</div>
+        <form class="card-body" data-url="/api/close">
+          <select class="form-select mb-2" name="caseId" data-cases required></select>
+          <select class="form-select mb-3" name="outcome">
+            <option value="WON">Won</option>
+            <option value="LOST">Lost</option>
+            <option value="SETTLED">Settled</option>
+          </select>
+          <button class="btn btn-danger">Close case</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <span>Cases</span>
+      <select class="form-select form-select-sm w-auto" id="sort">
+        <option value="">Sort by id</option>
+        <option value="deadline">Sort by deadline</option>
+        <option value="fee">Sort by fee (highest first)</option>
+        <option value="client">Sort by client name</option>
+      </select>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped mb-0">
+        <thead><tr><th>Id</th><th>Type</th><th>Title</th><th>Client</th><th>Lead lawyer</th><th>Opposing party</th><th>Deadline</th><th>Status</th><th>Hours</th><th>Billing</th><th class="text-end">Fee (EUR)</th></tr></thead>
+        <tbody id="cases"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">Clients</div>
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead><tr><th>Id</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+            <tbody id="clients"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">Lawyers</div>
+        <div class="table-responsive">
+          <table class="table table-striped mb-0">
+            <thead><tr><th>Id</th><th>Name</th><th>Rate (EUR/h)</th><th>Active cases</th></tr></thead>
+            <tbody id="lawyers"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const box = document.getElementById("message");
+
+  function show(text, good) {
+    box.textContent = text;
+    box.className = "alert " + (good ? "alert-success" : "alert-danger");
+  }
+
+  // Text from the server goes in with textContent, never as HTML.
+  function cell(row, text, cssClass) {
+    const td = document.createElement("td");
+    td.textContent = text;
+    if (cssClass) td.className = cssClass;
+    row.appendChild(td);
+  }
+
+  function fillTable(id, rows) {
+    const body = document.getElementById(id);
+    body.replaceChildren();
+    for (const values of rows) {
+      const tr = document.createElement("tr");
+      values.forEach((value, i) => cell(tr, value, id === "cases" && i === 10 ? "text-end" : ""));
+      body.appendChild(tr);
+    }
+  }
+
+  function fillSelect(select, items, label) {
+    const old = select.value;
+    select.replaceChildren();
+    for (const item of items) {
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = label(item);
+      select.appendChild(option);
+    }
+    if ([...select.options].some(o => o.value === old)) select.value = old;
+  }
+
+  async function refresh() {
+    const sort = document.getElementById("sort").value;
+    const state = await (await fetch("/api/state" + (sort ? "?sort=" + sort : ""))).json();
+    fillTable("clients", state.clients.map(c => [c.id, c.name, c.email, c.phone]));
+    fillTable("lawyers", state.lawyers.map(l => [l.id, l.name, l.rate.toFixed(2), l.activeCases + " / 5"]));
+    fillTable("cases", state.cases.map(c => [c.id, c.type, c.title, c.client, c.lawyer, c.opposingParty,
+      c.deadline, c.status, c.hours, c.billing, c.fee.toFixed(2)]));
+    fillSelect(document.getElementById("caseClient"), state.clients, c => c.id + ": " + c.name);
+    fillSelect(document.getElementById("caseLawyer"), state.lawyers, l => l.id + ": " + l.name);
+    document.querySelectorAll("select[data-cases]").forEach(select =>
+      fillSelect(select, state.cases, c => c.id + ": " + c.title + " (" + c.status + ")"));
+  }
+
+  // One handler for every form: send it, show the answer, reload the tables.
+  document.querySelectorAll("form[data-url]").forEach(form => {
+    form.addEventListener("submit", async event => {
+      event.preventDefault();
+      const response = await fetch(form.dataset.url, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(new FormData(form))
+      });
+      const answer = await response.json();
+      if (response.ok) {
+        show(answer.message, true);
+        form.reset();
+        updateExtra();
+        updateBilling();
+        await refresh();
+      } else {
+        show(answer.error, false);
+      }
+    });
+  });
+
+  // The extra field of a case depends on its type (charge, matter type or company name).
+  const extraLabels = { criminal: "Charge", family: "Matter type (e.g. divorce, custody)", corporate: "Company name" };
+  function updateExtra() {
+    document.getElementById("caseExtra").placeholder = extraLabels[document.getElementById("caseType").value];
+  }
+  document.getElementById("caseType").addEventListener("change", updateExtra);
+
+  // Billing fields shown depend on the chosen method.
+  function updateBilling() {
+    const method = document.getElementById("billingMethod").value;
+    const form = document.getElementById("billingMethod").form;
+    form.elements.amount.classList.toggle("d-none", method !== "flat");
+    form.elements.percentage.classList.toggle("d-none", method !== "contingency");
+    form.elements.settlement.classList.toggle("d-none", method !== "contingency");
+  }
+  document.getElementById("billingMethod").addEventListener("change", updateBilling);
+
+  document.getElementById("sort").addEventListener("change", refresh);
+  updateExtra();
+  updateBilling();
+  refresh();
+</script>
+</body>
+</html>
