@@ -24,8 +24,11 @@ Run these commands from the project root folder.
 | Run all tests | `mvnw.cmd clean test` | `sh mvnw clean test` |
 | Build the jar (also runs the tests) | `mvnw.cmd clean package` | `sh mvnw clean package` |
 | Start the application | `java -jar target\law-firm-case-manager-1.0.0.jar` | `java -jar target/law-firm-case-manager-1.0.0.jar` |
+| Start the web page (optional) | `java -jar target\law-firm-case-manager-1.0.0.jar --web` | `java -jar target/law-firm-case-manager-1.0.0.jar --web` |
 
 In IntelliJ IDEA you can also open the project as a Maven project, run `Main` directly, and run the tests by right-clicking `src/test/java` → *Run 'All Tests'*.
+
+The web page is an optional second interface to the same program. After starting it with `--web`, open http://localhost:8080 in a browser. It has forms for every menu action, a sortable case table and the lists of clients and lawyers. It uses the same `LawFirmService` and the same save file as the console menu, and saves after every change. Stop it with Ctrl+C. The page loads Bootstrap from the internet, so it needs a connection to look styled.
 
 Saved data is written to `data/lawfirm-data.ser` (relative to the folder the program is started from). This folder is ignored by Git.
 
@@ -100,13 +103,14 @@ Error: Email must contain '@'.
 
 ```
 src/main/java/com/mahadin/lawfirm/
-├── Main.java          creates the objects and starts the menu
+├── Main.java          creates the objects and starts the menu (or the web page with --web)
 ├── domain/            Person, Client, Lawyer, LegalCase and its subclasses, TimeEntry, CaseStatus
 ├── billing/           BillingStrategy and its three implementations (Strategy pattern)
 ├── exception/         the application's own exception types
 ├── service/           LawFirmService: the firm's rules and the lists of data
 ├── persistence/       FirmData and DataStore: saving and loading
-└── ui/                ConsoleMenu: all console input and output
+└── ui/                ConsoleMenu: all console input and output; WebServer: the optional web page
+src/main/resources/web/index.html   the Bootstrap page served by WebServer
 src/test/java/...      JUnit 5 tests, in the same packages as the classes they test
 docs/                  user stories and UML class diagram
 ```
@@ -162,16 +166,17 @@ The two firm-rule exceptions are **checked** because breaking a firm rule is a n
 - **`Person` base class:** `Client` and `Lawyer` both have an id and a name with the same checks, so this code is written once in `Person`.
 - **Rate multiplier per case type:** criminal 1.5, family 1.0, corporate 1.3. Each subclass returns its own value, so hourly billing works the same way for every case type.
 - **Equality by id:** two clients (or two lawyers, or two cases) are equal if they have the same id. Ids are given out by `LawFirmService` and continue correctly after loading saved data.
+- **Web page without extra libraries:** `WebServer` uses the HTTP server that comes with the JDK and calls the same `LawFirmService` as the console menu, so the rules are not written twice and no dependency is added.
 - **One save file:** all data is wrapped in a single `FirmData` object, so the relationships between objects (for example a case pointing to its client) are saved and restored together.
 
 ## Known limitations
 
-- Data is only saved when the user exits with option 0. If the program is closed in another way (for example the window is closed), the changes from that session are lost.
+- In the console menu, data is only saved when the user exits with option 0 (the web page saves after every change). If the program is closed in another way (for example the window is closed), the changes from that session are lost.
 - If the save file is damaged or comes from an older version of the program, it cannot be loaded. The program then starts with empty data, and saving on exit replaces the old file.
 - Clients and lawyers cannot be edited or deleted from the menu, and cases cannot be reopened.
 - The conflict-of-interest check compares names (ignoring upper/lower case), so two different people with the same name are treated as the same person.
 - Only one lead lawyer per case is stored.
-- Console interface only, no GUI.
+- The console menu is the main interface. The optional web page has no login and is meant to be run on your own computer only, and it needs an internet connection for its Bootstrap styling.
 
 ## UML class diagram
 
