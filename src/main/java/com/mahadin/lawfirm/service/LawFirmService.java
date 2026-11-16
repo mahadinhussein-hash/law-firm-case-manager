@@ -1,11 +1,9 @@
 package com.mahadin.lawfirm.service;
 
 import com.mahadin.lawfirm.billing.BillingStrategy;
+import com.mahadin.lawfirm.domain.CaseFactory;
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
-import com.mahadin.lawfirm.domain.CorporateCase;
-import com.mahadin.lawfirm.domain.CriminalCase;
-import com.mahadin.lawfirm.domain.FamilyCase;
 import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.domain.TimeEntry;
@@ -44,25 +42,29 @@ public class LawFirmService {
         return lawyer;
     }
 
+    public LegalCase openCase(String type, String title, Client client, String opposingParty,
+                              LocalDate deadline, Lawyer lawyer, String detail)
+            throws CaseLoadExceededException, ConflictOfInterestException {
+        checkCanAssign(lawyer, opposingParty);
+        return register(CaseFactory.create(type, nextCaseId, title, client, opposingParty, deadline, lawyer, detail));
+    }
+
     public LegalCase openCriminalCase(String title, Client client, String opposingParty,
                                       LocalDate deadline, Lawyer lawyer, String charge)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty);
-        return register(new CriminalCase(nextCaseId, title, client, opposingParty, deadline, lawyer, charge));
+        return openCase("criminal", title, client, opposingParty, deadline, lawyer, charge);
     }
 
     public LegalCase openFamilyCase(String title, Client client, String opposingParty,
                                     LocalDate deadline, Lawyer lawyer, String matterType)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty);
-        return register(new FamilyCase(nextCaseId, title, client, opposingParty, deadline, lawyer, matterType));
+        return openCase("family", title, client, opposingParty, deadline, lawyer, matterType);
     }
 
     public LegalCase openCorporateCase(String title, Client client, String opposingParty,
                                        LocalDate deadline, Lawyer lawyer, String companyName)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty);
-        return register(new CorporateCase(nextCaseId, title, client, opposingParty, deadline, lawyer, companyName));
+        return openCase("corporate", title, client, opposingParty, deadline, lawyer, companyName);
     }
 
     public void assignLawyer(LegalCase legalCase, Lawyer lawyer)
