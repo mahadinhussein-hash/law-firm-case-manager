@@ -22,6 +22,14 @@ public class ContingencyBilling implements BillingStrategy {
         this.settlementAmount = settlementAmount;
     }
 
+    public double getPercentage() {
+        return percentage;
+    }
+
+    public double getSettlementAmount() {
+        return settlementAmount;
+    }
+
     @Override
     public double calculateFee(LegalCase legalCase) {
         if (legalCase.getStatus() != CaseStatus.WON) {

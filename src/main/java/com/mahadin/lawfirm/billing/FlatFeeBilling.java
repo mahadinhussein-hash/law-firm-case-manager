@@ -16,6 +16,10 @@ public class FlatFeeBilling implements BillingStrategy {
         this.amount = amount;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
     @Override
     public double calculateFee(LegalCase legalCase) {
         return amount;

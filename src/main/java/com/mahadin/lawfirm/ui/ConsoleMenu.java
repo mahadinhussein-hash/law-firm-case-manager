@@ -1,8 +1,6 @@
 package com.mahadin.lawfirm.ui;
 
-import com.mahadin.lawfirm.billing.ContingencyBilling;
-import com.mahadin.lawfirm.billing.FlatFeeBilling;
-import com.mahadin.lawfirm.billing.HourlyBilling;
+import com.mahadin.lawfirm.billing.BillingFactory;
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.Lawyer;
@@ -12,7 +10,7 @@ import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
 import com.mahadin.lawfirm.exception.LawFirmException;
 import com.mahadin.lawfirm.exception.ValidationException;
-import com.mahadin.lawfirm.persistence.DataStore;
+import com.mahadin.lawfirm.persistence.FirmRepository;
 import com.mahadin.lawfirm.service.LawFirmService;
 
 import java.io.IOException;
@@ -25,12 +23,12 @@ import java.util.Scanner;
 public class ConsoleMenu {
 
     private final LawFirmService service;
-    private final DataStore dataStore;
+    private final FirmRepository repository;
     private final Scanner scanner;
 
-    public ConsoleMenu(LawFirmService service, DataStore dataStore, Scanner scanner) {
+    public ConsoleMenu(LawFirmService service, FirmRepository repository, Scanner scanner) {
         this.service = service;
-        this.dataStore = dataStore;
+        this.repository = repository;
         this.scanner = scanner;
     }
 
@@ -66,7 +64,7 @@ public class ConsoleMenu {
 
     private void loadData() {
         try {
-            service.importData(dataStore.load());
+            service.importData(repository.load());
             System.out.println("Loaded " + service.getClients().size() + " clients, "
                     + service.getLawyers().size() + " lawyers and "
                     + service.getCases().size() + " cases.");
@@ -77,7 +75,7 @@ public class ConsoleMenu {
 
     private void saveData() {
         try {
-            dataStore.save(service.exportData());
+            repository.save(service.exportData());
             System.out.println("Data saved.");
         } catch (IOException e) {
             System.out.println("Could not save data: " + e.getMessage());
@@ -136,17 +134,19 @@ public class ConsoleMenu {
         LocalDate deadline = readDate("Deadline (YYYY-MM-DD): ");
         Lawyer lawyer = service.findLawyer(readInt("Lead lawyer id: "));
 
-        LegalCase legalCase;
+        String typeName;
+        String detail;
         if (type == 1) {
-            String charge = readText("Charge: ");
-            legalCase = service.openCriminalCase(title, client, opposingParty, deadline, lawyer, charge);
+            typeName = "criminal";
+            detail = readText("Charge: ");
         } else if (type == 2) {
-            String matterType = readText("Matter type (e.g. divorce, custody): ");
-            legalCase = service.openFamilyCase(title, client, opposingParty, deadline, lawyer, matterType);
+            typeName = "family";
+            detail = readText("Matter type (e.g. divorce, custody): ");
         } else {
-            String companyName = readText("Company name: ");
-            legalCase = service.openCorporateCase(title, client, opposingParty, deadline, lawyer, companyName);
+            typeName = "corporate";
+            detail = readText("Company name: ");
         }
+        LegalCase legalCase = service.openCase(typeName, title, client, opposingParty, deadline, lawyer, detail);
         System.out.println("Opened " + legalCase);
     }
 
@@ -164,13 +164,13 @@ public class ConsoleMenu {
         System.out.println("Billing: 1 = Hourly, 2 = Flat fee, 3 = Contingency");
         int choice = readInt("Billing method: ");
         if (choice == 1) {
-            service.chooseBilling(legalCase, new HourlyBilling());
+            service.chooseBilling(legalCase, BillingFactory.create("hourly", 0, 0, 0));
         } else if (choice == 2) {
-            service.chooseBilling(legalCase, new FlatFeeBilling(readDouble("Flat fee amount (EUR): ")));
+            service.chooseBilling(legalCase, BillingFactory.create("flat", readDouble("Flat fee amount (EUR): "), 0, 0));
         } else if (choice == 3) {
             double percentage = readDouble("Percentage of settlement: ");
             double settlement = readDouble("Settlement amount (EUR): ");
-            service.chooseBilling(legalCase, new ContingencyBilling(percentage, settlement));
+            service.chooseBilling(legalCase, BillingFactory.create("contingency", 0, percentage, settlement));
         } else {
             System.out.println("Unknown billing method.");
             return;

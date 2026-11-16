@@ -1,8 +1,6 @@
 package com.mahadin.lawfirm.ui;
 
-import com.mahadin.lawfirm.billing.ContingencyBilling;
-import com.mahadin.lawfirm.billing.FlatFeeBilling;
-import com.mahadin.lawfirm.billing.HourlyBilling;
+import com.mahadin.lawfirm.billing.BillingFactory;
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.LegalCase;
@@ -10,7 +8,7 @@ import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.exception.CaseClosedException;
 import com.mahadin.lawfirm.exception.LawFirmException;
 import com.mahadin.lawfirm.exception.ValidationException;
-import com.mahadin.lawfirm.persistence.DataStore;
+import com.mahadin.lawfirm.persistence.FirmRepository;
 import com.mahadin.lawfirm.service.LawFirmService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -35,12 +33,12 @@ import java.util.Map;
 public class WebServer {
 
     private final LawFirmService service;
-    private final DataStore dataStore;
+    private final FirmRepository repository;
     private final int port;
 
-    public WebServer(LawFirmService service, DataStore dataStore, int port) {
+    public WebServer(LawFirmService service, FirmRepository repository, int port) {
         this.service = service;
-        this.dataStore = dataStore;
+        this.repository = repository;
         this.port = port;
     }
 
@@ -61,7 +59,7 @@ public class WebServer {
 
     private void loadData() {
         try {
-            service.importData(dataStore.load());
+            service.importData(repository.load());
             System.out.println("Loaded " + service.getClients().size() + " clients, "
                     + service.getLawyers().size() + " lawyers and "
                     + service.getCases().size() + " cases.");
@@ -89,13 +87,7 @@ public class WebServer {
         LocalDate deadline = date(form, "deadline");
         Lawyer lawyer = service.findLawyer(whole(form, "lawyerId"));
         String extra = form.get("extra");
-        LegalCase legalCase;
-        switch (String.valueOf(form.get("type"))) {
-            case "criminal" -> legalCase = service.openCriminalCase(title, client, opposingParty, deadline, lawyer, extra);
-            case "family" -> legalCase = service.openFamilyCase(title, client, opposingParty, deadline, lawyer, extra);
-            case "corporate" -> legalCase = service.openCorporateCase(title, client, opposingParty, deadline, lawyer, extra);
-            default -> throw new ValidationException("Unknown case type.");
-        }
+        LegalCase legalCase = service.openCase(form.get("type"), title, client, opposingParty, deadline, lawyer, extra);
         return "Opened " + legalCase;
     }
 
@@ -107,13 +99,8 @@ public class WebServer {
 
     private String chooseBilling(Map<String, String> form) {
         LegalCase legalCase = service.findCase(whole(form, "caseId"));
-        switch (String.valueOf(form.get("method"))) {
-            case "hourly" -> service.chooseBilling(legalCase, new HourlyBilling());
-            case "flat" -> service.chooseBilling(legalCase, new FlatFeeBilling(number(form, "amount")));
-            case "contingency" -> service.chooseBilling(legalCase,
-                    new ContingencyBilling(number(form, "percentage"), number(form, "settlement")));
-            default -> throw new ValidationException("Unknown billing method.");
-        }
+        service.chooseBilling(legalCase, BillingFactory.create(form.get("method"),
+                optionalNumber(form, "amount"), optionalNumber(form, "percentage"), optionalNumber(form, "settlement")));
         return String.format(Locale.ROOT, "Billing set. Current fee: %.2f EUR", legalCase.calculateFee());
     }
 
@@ -214,7 +201,7 @@ public class WebServer {
 
     private void saveData() {
         try {
-            dataStore.save(service.exportData());
+            repository.save(service.exportData());
         } catch (IOException e) {
             System.out.println("Could not save data: " + e.getMessage());
         }
@@ -239,6 +226,12 @@ public class WebServer {
         } catch (NumberFormatException | NullPointerException e) {
             throw new ValidationException("Please choose a value for " + field + ".");
         }
+    }
+
+    // a field the chosen option does not use may be missing; the factory ignores it
+    private double optionalNumber(Map<String, String> form, String field) {
+        String text = form.get(field);
+        return text == null || text.isBlank() ? 0 : number(form, field);
     }
 
     private double number(Map<String, String> form, String field) {
