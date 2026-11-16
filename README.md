@@ -1,6 +1,6 @@
 # Law Firm Case Manager
 
-A Java console application for a small law firm. Office staff can register clients and lawyers, open cases, log billable hours, choose how each case is billed, close cases with an outcome and list cases in different orders. All data is saved to a file when the program exits and loaded again on the next start.
+A Java application for a small law firm with **two interfaces to the same program: a console menu and a web page (GUI)**. Office staff can register clients and lawyers, open cases, log billable hours, choose how each case is billed, close cases with an outcome and list cases in different orders. All data is saved to a JSON file and loaded again on the next start (the console saves when you exit, the web page after every change).
 
 **Problem it solves:** small firms often keep this information in spreadsheets, which makes it easy to give a lawyer too many cases, miss a conflict of interest, or calculate a fee wrongly. This application keeps everything in one place and checks the firm's rules automatically:
 
@@ -23,16 +23,25 @@ Run these commands from the project root folder.
 |---|---|---|
 | Run all tests | `mvnw.cmd clean test` | `sh mvnw clean test` |
 | Build the jar (also runs the tests) | `mvnw.cmd clean package` | `sh mvnw clean package` |
-| Start the application | `java -jar target\law-firm-case-manager-1.0.0.jar` | `java -jar target/law-firm-case-manager-1.0.0.jar` |
-| Start the web page (optional) | `java -jar target\law-firm-case-manager-1.0.0.jar --web` | `java -jar target/law-firm-case-manager-1.0.0.jar --web` |
+| Start the console menu | `java -jar target\law-firm-case-manager-1.0.0.jar` | `java -jar target/law-firm-case-manager-1.0.0.jar` |
+| Start the web page (GUI) | `java -jar target\law-firm-case-manager-1.0.0.jar --web` | `java -jar target/law-firm-case-manager-1.0.0.jar --web` |
 
 In IntelliJ IDEA you can also open the project as a Maven project, run `Main` directly, and run the tests by right-clicking `src/test/java` → *Run 'All Tests'*.
 
-The web page is an optional second interface to the same program. After starting it with `--web`, open http://localhost:8080 in a browser. It has forms for every menu action, a sortable case table and the lists of clients and lawyers. It uses the same `LawFirmService` and the same save file as the console menu, and saves after every change. Stop it with Ctrl+C. The page loads Bootstrap from the internet, so it needs a connection to look styled.
+### Two interfaces
 
-Saved data is written to `data/lawfirm-data.ser` (relative to the folder the program is started from). This folder is ignored by Git.
+| | Console menu | Web page (GUI) |
+|---|---|---|
+| Start | no argument | `--web`, then open http://localhost:8080 |
+| What it is | a numbered text menu (`ConsoleMenu`) | an HTML page with Bootstrap, forms and tables, served by `WebServer` |
+| Features | every action: add clients and lawyers, open cases, log hours, choose billing, close cases, list cases sorted | the same actions, plus a sortable case table and the lists of clients and lawyers |
+| Saving | when you exit with option 0 | after every change; stop with Ctrl+C |
 
-## Sample usage
+Both interfaces call the same `LawFirmService` and use the same save file, so the rules are written once and the data is the same in both. The web page loads Bootstrap from the internet, so it needs a connection to look styled.
+
+Saved data is written as a readable JSON file, `data/lawfirm-data.json` (relative to the folder the program is started from). This folder is ignored by Git. Starting the program with `--ser` uses the older Java-serialization file `data/lawfirm-data.ser` instead (it can be combined with `--web`).
+
+## Sample usage (console menu)
 
 User input is shown after each prompt.
 
@@ -103,13 +112,13 @@ Error: Email must contain '@'.
 
 ```
 src/main/java/com/mahadin/lawfirm/
-├── Main.java          creates the objects and starts the menu (or the web page with --web)
+├── Main.java          creates the objects and starts the console menu (or the web page with --web, or the old file format with --ser)
 ├── domain/            Person, Client, Lawyer, LegalCase and its subclasses, TimeEntry, CaseStatus
 ├── billing/           BillingStrategy and its three implementations (Strategy pattern)
 ├── exception/         the application's own exception types
 ├── service/           LawFirmService: the firm's rules and the lists of data
-├── persistence/       FirmData and DataStore: saving and loading
-└── ui/                ConsoleMenu: all console input and output; WebServer: the optional web page
+├── persistence/       FirmData, the FirmRepository interface, JsonFirmRepository and DataStore (the two storage formats), RepositoryFactory
+└── ui/                ConsoleMenu: the console interface; WebServer: the web interface (GUI)
 src/main/resources/web/index.html   the Bootstrap page served by WebServer
 src/test/java/...      JUnit 5 tests, in the same packages as the classes they test
 docs/                  user stories and UML class diagram
@@ -127,8 +136,8 @@ docs/                  user stories and UML class diagram
 | **Collections and generics** | `List<Client>`, `List<Lawyer>`, `List<LegalCase>`, `List<TimeEntry>`. |
 | **Sorting** | `LawFirmService.getCasesSorted(Comparator<LegalCase>)` with lambda comparators in `ConsoleMenu` (by deadline, by fee highest first, by client name). |
 | **Exception handling** | Own exception types in the `exception` package (see below). Invalid numbers and dates in the menu are caught and the user is asked again. Load and save problems are reported without crashing. |
-| **Persistence** | `DataStore` saves and loads a `FirmData` object with Java serialization, using try-with-resources so the file streams are always closed. |
-| **Design pattern** | Strategy (see below). |
+| **Persistence** | `FirmRepository` is the storage interface. `JsonFirmRepository` saves and loads a readable JSON file (Gson); `DataStore` does the same with Java serialization, using try-with-resources so the file streams are always closed. |
+| **Design patterns** | Strategy for billing, Repository for storage, Factory for creating objects (see below). |
 | **Build tool** | Maven with the Maven Wrapper. |
 | **Tests** | JUnit 5 tests for fees, case rules, validation, sorting and saving/loading. |
 
@@ -160,19 +169,42 @@ The two firm-rule exceptions are **checked** because breaking a firm rule is a n
 
 **Benefit:** `LegalCase` does not need to know how any fee is calculated. The billing method can be changed at runtime with `setBillingStrategy(...)` (menu option 6). A new billing method can be added by writing one new class, without changing `LegalCase` or the other strategies.
 
+## Design pattern: Repository
+
+**Problem:** the service and the user interfaces should not depend on how the data is stored. If they called file code directly, changing the format would mean changing them all.
+
+**Solution:** the `FirmRepository` interface has two methods, `save(FirmData)` and `load()`. `JsonFirmRepository` (JSON file) and `DataStore` (Java serialization) both implement it. `ConsoleMenu` and `WebServer` only know the interface. `JsonFirmRepository` converts the objects to JSON by hand, because the domain classes should not contain storage code, and it rebuilds them through their constructors and the factories, so every rule is checked again when a file is loaded.
+
+**Benefit:** the storage format can be swapped without touching the service or the UI (`--ser` switches back to the old format).
+
+## Design pattern: Factory
+
+**Problem:** creating a case or a billing strategy means choosing a subclass from a text or menu choice. That `if`/`switch` was repeated in the console menu, the web server and the loading code.
+
+**Solution:** three small factories each hold that choice in one place:
+
+| Factory | Input | Result |
+|---|---|---|
+| `CaseFactory.create(type, ...)` | `criminal`, `family` or `corporate` | the matching `LegalCase` subclass |
+| `BillingFactory.create(method, ...)` | `hourly`, `flat` or `contingency` | the matching `BillingStrategy` |
+| `RepositoryFactory.create(format)` | `json` or `ser` | the matching `FirmRepository` |
+
+An unknown name gives a `ValidationException`. `LawFirmService.openCase(...)` uses `CaseFactory`, the console menu and web page use `BillingFactory`, and `Main` uses `RepositoryFactory`. A new case type is added in `CaseFactory` only.
+
 ## Design decisions
 
-- **Layers:** the UI (`ConsoleMenu`) only reads input and prints output. The firm's rules are in `LawFirmService`, the data classes are in `domain`, and file handling is in `persistence`. This keeps each class focused on one job.
+- **Layers:** the user interfaces (`ConsoleMenu` and `WebServer`) only read input and show output. The firm's rules are in `LawFirmService`, the data classes are in `domain`, and file handling is in `persistence`. This keeps each class focused on one job.
 - **`Person` base class:** `Client` and `Lawyer` both have an id and a name with the same checks, so this code is written once in `Person`.
 - **Rate multiplier per case type:** criminal 1.5, family 1.0, corporate 1.3. Each subclass returns its own value, so hourly billing works the same way for every case type.
 - **Equality by id:** two clients (or two lawyers, or two cases) are equal if they have the same id. Ids are given out by `LawFirmService` and continue correctly after loading saved data.
-- **Web page without extra libraries:** `WebServer` uses the HTTP server that comes with the JDK and calls the same `LawFirmService` as the console menu, so the rules are not written twice and no dependency is added.
-- **One save file:** all data is wrapped in a single `FirmData` object, so the relationships between objects (for example a case pointing to its client) are saved and restored together.
+- **Console menu and web page:** the console menu is the main interface; the web page is a second, optional one. `WebServer` uses the HTTP server that comes with the JDK and calls the same `LawFirmService` as the console menu, so the rules are not written twice and the web page needs no library of its own.
+- **One save file:** all data is wrapped in a single `FirmData` object and written to one file, so the relationships between objects are saved and restored together. In the JSON file a case refers to its client and lawyer by id.
+- **JSON with Gson:** the file can be read and checked by a person, and Gson (used only for the save file) is the only added dependency. The default format changed from Java serialization to JSON; the serialization code is kept as a second implementation of `FirmRepository`.
 
 ## Known limitations
 
 - In the console menu, data is only saved when the user exits with option 0 (the web page saves after every change). If the program is closed in another way (for example the window is closed), the changes from that session are lost.
-- If the save file is damaged or comes from an older version of the program, it cannot be loaded. The program then starts with empty data, and saving on exit replaces the old file.
+- If the save file is damaged, or is an old `.ser` file while the program runs without `--ser`, it cannot be loaded. The program then starts with empty data, and saving on exit replaces the old file.
 - Clients and lawyers cannot be edited or deleted from the menu, and cases cannot be reopened.
 - The conflict-of-interest check compares names (ignoring upper/lower case), so two different people with the same name are treated as the same person.
 - Only one lead lawyer per case is stored.
