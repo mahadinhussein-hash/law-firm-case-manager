@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class DataStore {
+public class DataStore implements FirmRepository {
 
     private final String filePath;
 
@@ -21,6 +21,7 @@ public class DataStore {
         this.filePath = filePath;
     }
 
+    @Override
     public void save(FirmData data) throws IOException {
         File file = new File(filePath);
         File folder = file.getParentFile();
@@ -33,6 +34,7 @@ public class DataStore {
         }
     }
 
+    @Override
     public FirmData load() throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
