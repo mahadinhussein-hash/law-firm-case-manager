@@ -1,5 +1,8 @@
 # Law Firm Case Manager
 
+**Author:** Hussein ALMahadin  
+**Neptun code:** ZY39QA
+
 A Java application for a small law firm with **two interfaces to the same program: a console menu and a web page (GUI)**. Office staff can register clients and lawyers, open cases, log billable hours, choose how each case is billed, close cases with an outcome and list cases in different orders. All data is saved to a JSON file and loaded again on the next start (the console saves when you exit, the web page after every change).
 
 **Problem it solves:** small firms often keep this information in spreadsheets, which makes it easy to give a lawyer too many cases, miss a conflict of interest, or calculate a fee wrongly. This application keeps everything in one place and checks the firm's rules automatically:
