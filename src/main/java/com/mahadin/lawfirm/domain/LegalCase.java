@@ -5,16 +5,13 @@ import com.mahadin.lawfirm.billing.HourlyBilling;
 import com.mahadin.lawfirm.exception.CaseClosedException;
 import com.mahadin.lawfirm.exception.ValidationException;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class LegalCase implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public abstract class LegalCase {
 
     private final int id;
     private final String title;
