@@ -38,7 +38,7 @@ import java.util.Map;
  * from JSON by hand, and rebuilds them through their constructors and the
  * factories, so every rule is checked again when a file is loaded.
  */
-public class JsonFirmRepository implements FirmRepository {
+public class JsonFirmRepository {
 
     private final String filePath;
 
@@ -49,7 +49,6 @@ public class JsonFirmRepository implements FirmRepository {
         this.filePath = filePath;
     }
 
-    @Override
     public void save(FirmData data) throws IOException {
         File file = new File(filePath);
         File folder = file.getParentFile();
@@ -65,7 +64,6 @@ public class JsonFirmRepository implements FirmRepository {
         }
     }
 
-    @Override
     public FirmData load() throws IOException {
         File file = new File(filePath);
         if (!file.exists()) {
