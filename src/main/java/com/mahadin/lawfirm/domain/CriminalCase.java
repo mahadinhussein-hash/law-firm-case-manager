@@ -6,8 +6,6 @@ import java.time.LocalDate;
 
 public class CriminalCase extends LegalCase {
 
-    private static final long serialVersionUID = 1L;
-
     private final String charge;
 
     public CriminalCase(int id, String title, Client client, String opposingParty,
