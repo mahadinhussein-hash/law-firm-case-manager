@@ -139,8 +139,8 @@ docs/                  user stories and UML class diagram
 | **Collections and generics** | `List<Client>`, `List<Lawyer>`, `List<LegalCase>`, `List<TimeEntry>`. |
 | **Sorting** | `LawFirmService.getCasesSorted(Comparator<LegalCase>)` with lambda comparators in `ConsoleMenu` (by deadline, by fee highest first, by client name). |
 | **Exception handling** | Own exception types in the `exception` package: `ValidationException` and `CaseClosedException` (unchecked, for invalid input and closed cases) and `LawFirmException` with `CaseLoadExceededException` and `ConflictOfInterestException` (checked, for the two firm rules). Invalid numbers and dates in the menu are caught and the user is asked again. Load and save problems are reported without crashing. |
-| **Persistence** | `FirmRepository` is the storage interface. `JsonFirmRepository` saves and loads a readable JSON file (Gson), using try-with-resources so the file streams are always closed. |
-| **Design patterns** | Strategy for billing, Repository for storage, Factory for creating objects (see below). |
+| **Persistence** | `FirmRepository` is the storage interface, created by `RepositoryFactory`. `JsonFirmRepository` saves and loads a readable JSON file (Gson), using try-with-resources so the file streams are always closed. |
+| **Design patterns** | Strategy for billing, Factory for creating cases, billing strategies and the storage (see below). |
 | **Build tool** | Maven with the Maven Wrapper. |
 | **Tests** | JUnit 5 tests for fees, case rules, validation, sorting and saving/loading. |
 
@@ -160,17 +160,9 @@ docs/                  user stories and UML class diagram
 
 **Benefit:** `LegalCase` does not need to know how any fee is calculated. The billing method can be changed at runtime with `setBillingStrategy(...)` (menu option 6). A new billing method can be added by writing one new class, without changing `LegalCase` or the other strategies.
 
-## Design pattern: Repository
-
-**Problem:** the service and the user interfaces should not depend on how the data is stored. If they called file code directly, changing the format would mean changing them all.
-
-**Solution:** the `FirmRepository` interface has two methods, `save(FirmData)` and `load()`. `JsonFirmRepository` implements it and writes a JSON file. `ConsoleMenu` and `WebServer` only know the interface. `JsonFirmRepository` converts the objects to JSON by hand, because the domain classes should not contain storage code, and it rebuilds them through their constructors and the factories, so every rule is checked again when a file is loaded.
-
-**Benefit:** the storage format can be swapped without touching the service or the UI. A new format only needs another class that implements `FirmRepository` and one more case in `RepositoryFactory`.
-
 ## Design pattern: Factory
 
-**Problem:** creating a case or a billing strategy means choosing a subclass from a text or menu choice. That `if`/`switch` was repeated in the console menu, the web server and the loading code.
+**Problem:** creating a case, a billing strategy or the storage means choosing a class from a text or menu choice. That `if`/`switch` was repeated in the console menu, the web server and the loading code. The service and the user interfaces also should not depend on how the data is stored, because changing the format would then mean changing all of them.
 
 **Solution:** three small factories each hold that choice in one place:
 
@@ -178,9 +170,13 @@ docs/                  user stories and UML class diagram
 |---|---|---|
 | `CaseFactory.create(type, ...)` | `criminal`, `family` or `corporate` | the matching `LegalCase` subclass |
 | `BillingFactory.create(method, ...)` | `hourly`, `flat` or `contingency` | the matching `BillingStrategy` |
-| `RepositoryFactory.create(format)` | `json` or `ser` | the matching `FirmRepository` |
+| `RepositoryFactory.create(format)` | `json` | the matching `FirmRepository` |
 
 An unknown name gives a `ValidationException`. `LawFirmService.openCase(...)` uses `CaseFactory`, the console menu and web page use `BillingFactory`, and `Main` uses `RepositoryFactory`. A new case type is added in `CaseFactory` only.
+
+The storage factory returns the `FirmRepository` interface, which has two methods, `save(FirmData)` and `load()`. `JsonFirmRepository` implements it and writes a readable JSON file. `ConsoleMenu` and `WebServer` only know the interface. `JsonFirmRepository` converts the objects to JSON by hand, because the domain classes should not contain storage code, and it rebuilds them through their constructors and the factories, so every rule is checked again when a file is loaded.
+
+**Benefit:** the code that needs a case, a billing strategy or storage never uses `new` on a concrete class, so it only depends on `LegalCase`, `BillingStrategy` and `FirmRepository`. A new format only needs another class that implements `FirmRepository` and one more case in `RepositoryFactory`.
 
 ## Design decisions and known limitations
 
