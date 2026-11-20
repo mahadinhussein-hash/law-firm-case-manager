@@ -6,8 +6,6 @@ import java.time.LocalDate;
 
 public class FamilyCase extends LegalCase {
 
-    private static final long serialVersionUID = 1L;
-
     private final String matterType;
 
     public FamilyCase(int id, String title, Client client, String opposingParty,
