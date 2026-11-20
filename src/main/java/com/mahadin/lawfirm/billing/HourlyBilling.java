@@ -4,8 +4,6 @@ import com.mahadin.lawfirm.domain.LegalCase;
 
 public class HourlyBilling implements BillingStrategy {
 
-    private static final long serialVersionUID = 1L;
-
     @Override
     public double calculateFee(LegalCase legalCase) {
         return legalCase.getTotalHours()

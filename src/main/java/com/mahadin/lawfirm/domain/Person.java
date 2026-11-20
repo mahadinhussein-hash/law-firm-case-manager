@@ -2,12 +2,9 @@ package com.mahadin.lawfirm.domain;
 
 import com.mahadin.lawfirm.exception.ValidationException;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Person implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public abstract class Person {
 
     private final int id;
     private final String name;

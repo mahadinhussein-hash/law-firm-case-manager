@@ -67,12 +67,6 @@ public class LawFirmService {
         return openCase("corporate", title, client, opposingParty, deadline, lawyer, companyName);
     }
 
-    public void assignLawyer(LegalCase legalCase, Lawyer lawyer)
-            throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, legalCase.getOpposingParty());
-        legalCase.setLeadLawyer(lawyer);
-    }
-
     public void logHours(LegalCase legalCase, LocalDate date, double hours, String description) {
         legalCase.addTimeEntry(new TimeEntry(date, hours, description));
     }

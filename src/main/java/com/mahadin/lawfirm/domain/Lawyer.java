@@ -4,8 +4,6 @@ import com.mahadin.lawfirm.exception.ValidationException;
 
 public class Lawyer extends Person {
 
-    private static final long serialVersionUID = 1L;
-
     public static final int MAX_ACTIVE_CASES = 5;
 
     private double hourlyRate;

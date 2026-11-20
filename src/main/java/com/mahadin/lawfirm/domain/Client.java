@@ -3,8 +3,6 @@ package com.mahadin.lawfirm.domain;
 import com.mahadin.lawfirm.exception.ValidationException;
 
 public class Client extends Person {
-    private static final long serialVersionUID = 1L;
-
     private String email;
     private String phone;
 

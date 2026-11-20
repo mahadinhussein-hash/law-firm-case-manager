@@ -6,8 +6,6 @@ import com.mahadin.lawfirm.exception.ValidationException;
 
 public class ContingencyBilling implements BillingStrategy {
 
-    private static final long serialVersionUID = 1L;
-
     private final double percentage;
     private final double settlementAmount;
 

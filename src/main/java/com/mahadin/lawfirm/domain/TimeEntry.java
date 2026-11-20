@@ -2,12 +2,9 @@ package com.mahadin.lawfirm.domain;
 
 import com.mahadin.lawfirm.exception.ValidationException;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
-public class TimeEntry implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TimeEntry {
 
     private final LocalDate date;
     private final double hours;

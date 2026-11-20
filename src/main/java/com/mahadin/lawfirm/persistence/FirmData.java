@@ -4,13 +4,10 @@ import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LegalCase;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FirmData implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class FirmData {
 
     private final List<Client> clients;
     private final List<Lawyer> lawyers;

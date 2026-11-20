@@ -13,8 +13,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
         List<String> options = List.of(args);
-        String format = options.contains("--ser") ? "ser" : "json";
-        FirmRepository repository = RepositoryFactory.create(format);
+        FirmRepository repository = RepositoryFactory.create("json");
         LawFirmService service = new LawFirmService();
         if (options.contains("--web")) {
             new WebServer(service, repository, 8080).start();
