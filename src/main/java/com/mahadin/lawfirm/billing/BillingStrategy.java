@@ -2,9 +2,7 @@ package com.mahadin.lawfirm.billing;
 
 import com.mahadin.lawfirm.domain.LegalCase;
 
-import java.io.Serializable;
-
-public interface BillingStrategy extends Serializable {
+public interface BillingStrategy {
 
     double calculateFee(LegalCase legalCase);
 
