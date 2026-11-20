@@ -10,7 +10,7 @@ import com.mahadin.lawfirm.exception.CaseLoadExceededException;
 import com.mahadin.lawfirm.exception.ConflictOfInterestException;
 import com.mahadin.lawfirm.exception.LawFirmException;
 import com.mahadin.lawfirm.exception.ValidationException;
-import com.mahadin.lawfirm.persistence.FirmRepository;
+import com.mahadin.lawfirm.persistence.JsonFirmRepository;
 import com.mahadin.lawfirm.service.LawFirmService;
 
 import java.io.IOException;
@@ -23,10 +23,10 @@ import java.util.Scanner;
 public class ConsoleMenu {
 
     private final LawFirmService service;
-    private final FirmRepository repository;
+    private final JsonFirmRepository repository;
     private final Scanner scanner;
 
-    public ConsoleMenu(LawFirmService service, FirmRepository repository, Scanner scanner) {
+    public ConsoleMenu(LawFirmService service, JsonFirmRepository repository, Scanner scanner) {
         this.service = service;
         this.repository = repository;
         this.scanner = scanner;

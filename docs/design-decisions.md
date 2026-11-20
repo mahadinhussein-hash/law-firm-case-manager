@@ -8,7 +8,7 @@
 - **Equality by id:** two clients (or two lawyers, or two cases) are equal if they have the same id. Ids are given out by `LawFirmService` and continue correctly after loading saved data.
 - **Console menu and web page:** the console menu is the main interface; the web page is a second, optional one. `WebServer` uses the HTTP server that comes with the JDK and calls the same `LawFirmService` as the console menu, so the rules are not written twice and the web page needs no library of its own.
 - **One save file:** all data is wrapped in a single `FirmData` object and written to one file, so the relationships between objects are saved and restored together. In the JSON file a case refers to its client and lawyer by id.
-- **JSON with Gson:** the file can be read and checked by a person, and Gson (used only for the save file) is the only added dependency. The storage sits behind `FirmRepository`, so another format could be added later.
+- **JSON with Gson:** the file can be read and checked by a person, and Gson (used only for the save file) is the only added dependency.
 
 ## Known limitations
 

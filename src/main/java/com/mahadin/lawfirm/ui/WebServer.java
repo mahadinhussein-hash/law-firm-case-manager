@@ -8,7 +8,7 @@ import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.exception.CaseClosedException;
 import com.mahadin.lawfirm.exception.LawFirmException;
 import com.mahadin.lawfirm.exception.ValidationException;
-import com.mahadin.lawfirm.persistence.FirmRepository;
+import com.mahadin.lawfirm.persistence.JsonFirmRepository;
 import com.mahadin.lawfirm.service.LawFirmService;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -33,10 +33,10 @@ import java.util.Map;
 public class WebServer {
 
     private final LawFirmService service;
-    private final FirmRepository repository;
+    private final JsonFirmRepository repository;
     private final int port;
 
-    public WebServer(LawFirmService service, FirmRepository repository, int port) {
+    public WebServer(LawFirmService service, JsonFirmRepository repository, int port) {
         this.service = service;
         this.repository = repository;
         this.port = port;
