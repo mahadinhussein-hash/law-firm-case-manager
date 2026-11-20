@@ -1,5 +1,8 @@
 # Law Firm Case Manager
 
+**Author:** Hussein ALMahadin  
+**Neptun code:** ZY39QA
+
 A Java application for a small law firm with **two interfaces to the same program: a console menu and a web page (GUI)**. Office staff can register clients and lawyers, open cases, log billable hours, choose how each case is billed, close cases with an outcome and list cases in different orders. All data is saved to a JSON file and loaded again on the next start (the console saves when you exit, the web page after every change).
 
 **Problem it solves:** small firms often keep this information in spreadsheets, which makes it easy to give a lawyer too many cases, miss a conflict of interest, or calculate a fee wrongly. This application keeps everything in one place and checks the firm's rules automatically:
@@ -135,23 +138,11 @@ docs/                  user stories and UML class diagram
 | **Relationships and multiplicities** | A case has exactly 1 client and exactly 1 lead lawyer; a client or lawyer can have 0..* cases; a case has 0..* time entries (composition) and exactly 1 billing strategy. |
 | **Collections and generics** | `List<Client>`, `List<Lawyer>`, `List<LegalCase>`, `List<TimeEntry>`. |
 | **Sorting** | `LawFirmService.getCasesSorted(Comparator<LegalCase>)` with lambda comparators in `ConsoleMenu` (by deadline, by fee highest first, by client name). |
-| **Exception handling** | Own exception types in the `exception` package (see below). Invalid numbers and dates in the menu are caught and the user is asked again. Load and save problems are reported without crashing. |
+| **Exception handling** | Own exception types in the `exception` package: `ValidationException` and `CaseClosedException` (unchecked, for invalid input and closed cases) and `LawFirmException` with `CaseLoadExceededException` and `ConflictOfInterestException` (checked, for the two firm rules). Invalid numbers and dates in the menu are caught and the user is asked again. Load and save problems are reported without crashing. |
 | **Persistence** | `FirmRepository` is the storage interface. `JsonFirmRepository` saves and loads a readable JSON file (Gson); `DataStore` does the same with Java serialization, using try-with-resources so the file streams are always closed. |
 | **Design patterns** | Strategy for billing, Repository for storage, Factory for creating objects (see below). |
 | **Build tool** | Maven with the Maven Wrapper. |
 | **Tests** | JUnit 5 tests for fees, case rules, validation, sorting and saving/loading. |
-
-### Exception types
-
-| Exception | Kind | Used when |
-|---|---|---|
-| `ValidationException` | unchecked | invalid input, e.g. an empty name, an email without `@`, negative hours, unknown id |
-| `CaseClosedException` | unchecked | logging hours on a closed case, or closing a case twice |
-| `LawFirmException` | checked | parent class of the two firm-rule exceptions below |
-| `CaseLoadExceededException` | checked | the lawyer already leads 5 active cases |
-| `ConflictOfInterestException` | checked | the opposing party is one of the lawyer's own clients |
-
-The two firm-rule exceptions are **checked** because breaking a firm rule is a normal situation that the caller must handle (the menu shows "Refused: …"). Invalid input is **unchecked** because it is a mistake in the values passed in, and the menu shows it as "Error: …".
 
 ## Design pattern: Strategy
 
