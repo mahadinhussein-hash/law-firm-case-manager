@@ -49,24 +49,6 @@ public class LawFirmService {
         return register(CaseFactory.create(type, nextCaseId, title, client, opposingParty, deadline, lawyer, detail));
     }
 
-    public LegalCase openCriminalCase(String title, Client client, String opposingParty,
-                                      LocalDate deadline, Lawyer lawyer, String charge)
-            throws CaseLoadExceededException, ConflictOfInterestException {
-        return openCase("criminal", title, client, opposingParty, deadline, lawyer, charge);
-    }
-
-    public LegalCase openFamilyCase(String title, Client client, String opposingParty,
-                                    LocalDate deadline, Lawyer lawyer, String matterType)
-            throws CaseLoadExceededException, ConflictOfInterestException {
-        return openCase("family", title, client, opposingParty, deadline, lawyer, matterType);
-    }
-
-    public LegalCase openCorporateCase(String title, Client client, String opposingParty,
-                                       LocalDate deadline, Lawyer lawyer, String companyName)
-            throws CaseLoadExceededException, ConflictOfInterestException {
-        return openCase("corporate", title, client, opposingParty, deadline, lawyer, companyName);
-    }
-
     public void logHours(LegalCase legalCase, LocalDate date, double hours, String description) {
         legalCase.addTimeEntry(new TimeEntry(date, hours, description));
     }
