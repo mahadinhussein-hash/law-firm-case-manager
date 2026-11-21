@@ -15,6 +15,8 @@ class PersonTest {
     void clientNeedsValidEmail() {
         assertThrows(ValidationException.class, () ->
                 new Client(1, "Anna Kovacs", "not-an-email", "+36 30 123 4567"));
+        assertThrows(ValidationException.class, () ->
+                new Client(1, "Qais Hijazen", "qais@gmail", "0795211112"));
     }
 
     @Test
@@ -59,10 +61,10 @@ class PersonTest {
     }
 
     @Test
-    void timeEntryHoursMustBeBetweenZeroAndTwentyFour() {
+    void timeEntryHoursMustBeBetweenZeroAndTwenty() {
         LocalDate today = LocalDate.of(2026, 11, 1);
 
         assertThrows(ValidationException.class, () -> new TimeEntry(today, 0, "Nothing"));
-        assertThrows(ValidationException.class, () -> new TimeEntry(today, 25, "Too much"));
+        assertThrows(ValidationException.class, () -> new TimeEntry(today, 21, "Too much"));
     }
 }
