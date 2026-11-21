@@ -23,6 +23,13 @@ class PersonTest {
     }
 
     @Test
+    void personNeedsFirstAndLastName() {
+        assertThrows(ValidationException.class, () -> new Lawyer(1, "Peter", 100.0));
+        assertThrows(ValidationException.class, () ->
+                new Client(1, "  Anna  ", "anna@example.com", "123"));
+    }
+
+    @Test
     void lawyerNeedsPositiveRate() {
         assertThrows(ValidationException.class, () -> new Lawyer(1, "Peter Nagy", 0));
     }

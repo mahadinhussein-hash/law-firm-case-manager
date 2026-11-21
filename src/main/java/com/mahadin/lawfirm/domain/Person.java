@@ -16,6 +16,9 @@ public abstract class Person {
         if (name == null || name.isBlank()) {
             throw new ValidationException("Name cannot be empty.");
         }
+        if (name.trim().split("\\s+").length < 2) {
+            throw new ValidationException("Enter the first name and the last name.");
+        }
         this.id = id;
         this.name = name.trim();
     }
