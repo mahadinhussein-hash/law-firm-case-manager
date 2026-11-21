@@ -21,7 +21,12 @@ public class Client extends Person {
     }
 
     public void setEmail(String email) {
-        if (email == null || !email.contains("@") || email.indexOf('.', email.indexOf('@')) == -1) {
+        if (email == null || !email.contains("@")) {
+            throw new ValidationException("Email must contain '@' and a '.' after it.");
+        }
+        int at = email.indexOf('@');
+        int dot = email.lastIndexOf('.');
+        if (at == 0 || dot < at + 2 || dot == email.length() - 1) {
             throw new ValidationException("Email must contain '@' and a '.' after it.");
         }
         this.email = email.trim();
@@ -30,6 +35,11 @@ public class Client extends Person {
     public void setPhone(String phone) {
         if (phone == null || phone.isBlank()) {
             throw new ValidationException("Phone number cannot be empty.");
+        }
+        for (char c : phone.trim().toCharArray()) {
+            if (!Character.isDigit(c) && c != '+' && c != ' ' && c != '-') {
+                throw new ValidationException("Phone number can only have digits, spaces, '+' and '-'.");
+            }
         }
         this.phone = phone.trim();
     }
