@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1170" viewBox="0 0 1560 1170" font-family="Liberation Sans, Arial, Helvetica, sans-serif">
 <rect width="100%" height="100%" fill="#FFFFFF"/>
 <text x="40" y="46" font-size="24" font-weight="700" fill="#1F2937">Law Firm Case Manager: application layers</text>
-<text x="40" y="70" font-size="14" fill="#64748B">UML class diagram, packages ui, service and persistence. Console menu -&gt; service -&gt; data store.</text>
+<text x="40" y="70" font-size="14" fill="#64748B">UML class diagram, packages ui, service and persistence. Console menu -&gt; service -&gt; JSON repository.</text>
 <rect x="40" y="1040" width="1480" height="96" rx="10" fill="#F8FAFC" stroke="#CBD5E1"/>
 <polyline points="210,188 210,280" fill="none" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"/>
 <polyline points="204.5,269 210,280 215.5,269" fill="none" stroke="#475569" stroke-width="1.6"/>
@@ -42,7 +42,7 @@
 <text x="250" y="302" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">ConsoleMenu</text>
 <line x1="60" y1="312" x2="440" y2="312" stroke="#3B82F6" stroke-width="1.2"/>
 <text x="70" y="330.5" font-size="13" fill="#1F2937">-service: LawFirmService</text>
-<text x="70" y="350.5" font-size="13" fill="#1F2937">-dataStore: DataStore</text>
+<text x="70" y="350.5" font-size="13" fill="#1F2937">-repository: JsonFirmRepository</text>
 <text x="70" y="370.5" font-size="13" fill="#1F2937">-scanner: Scanner</text>
 <line x1="60" y1="380" x2="440" y2="380" stroke="#3B82F6" stroke-width="1.2"/>
 <text x="70" y="398.5" font-size="13" fill="#1F2937">+run(): void</text>
@@ -75,10 +75,10 @@
 <line x1="600" y1="440" x2="1040" y2="440" stroke="#3B82F6" stroke-width="1.2"/>
 <text x="610" y="458.5" font-size="13" fill="#1F2937">+addClient(String, String, String): Client</text>
 <text x="610" y="478.5" font-size="13" fill="#1F2937">+addLawyer(String, double): Lawyer</text>
-<text x="610" y="498.5" font-size="13" fill="#1F2937">+openCriminalCase(...): CriminalCase</text>
-<text x="610" y="518.5" font-size="13" fill="#1F2937">+openFamilyCase(...): FamilyCase</text>
-<text x="610" y="538.5" font-size="13" fill="#1F2937">+openCorporateCase(...): CorporateCase</text>
-<text x="610" y="558.5" font-size="13" fill="#1F2937">+assignLawyer(LegalCase, Lawyer): void</text>
+<text x="610" y="498.5" font-size="13" fill="#1F2937">+openCase(...): LegalCase</text>
+<text x="610" y="518.5" font-size="13" fill="#1F2937">+getClients(): List&lt;Client&gt;</text>
+<text x="610" y="538.5" font-size="13" fill="#1F2937">+getLawyers(): List&lt;Lawyer&gt;</text>
+<text x="610" y="558.5" font-size="13" fill="#1F2937">+getCases(): List&lt;LegalCase&gt;</text>
 <text x="610" y="578.5" font-size="13" fill="#1F2937">+logHours(LegalCase, LocalDate, double, String): void</text>
 <text x="610" y="598.5" font-size="13" fill="#1F2937">+chooseBilling(LegalCase, BillingStrategy): void</text>
 <text x="610" y="618.5" font-size="13" fill="#1F2937">+closeCase(LegalCase, CaseStatus): void</text>
@@ -94,7 +94,7 @@
 <rect x="1192" y="123" width="330" height="108" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
 <rect x="1190" y="120" width="330" height="108" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
 <path d="M1190 120 h330 v32 h-330 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
-<text x="1355" y="142" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">DataStore</text>
+<text x="1355" y="142" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">JsonFirmRepository</text>
 <line x1="1190" y1="152" x2="1520" y2="152" stroke="#3B82F6" stroke-width="1.2"/>
 <text x="1200" y="170.5" font-size="13" fill="#1F2937">-filePath: String</text>
 <line x1="1190" y1="180" x2="1520" y2="180" stroke="#3B82F6" stroke-width="1.2"/>
@@ -122,14 +122,14 @@
 <text x="995" y="920" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">LegalCase</text>
 <path d="M60 800 h456 l14 14 v68 h-470 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
 <path d="M516 800 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
-<text x="70" y="820" font-size="12" fill="#1F2937">Main creates LawFirmService, DataStore and ConsoleMenu</text>
+<text x="70" y="820" font-size="12" fill="#1F2937">Main creates LawFirmService, JsonFirmRepository and ConsoleMenu</text>
 <text x="70" y="837" font-size="12" fill="#1F2937">and hands the first two to the menu (constructor injection).</text>
 <text x="70" y="854" font-size="12" fill="#1F2937">ConsoleMenu holds no business rules: it only reads input</text>
 <text x="70" y="871" font-size="12" fill="#1F2937">and calls LawFirmService. Rules live in the service/domain.</text>
 <text x="220" y="238" font-size="12" text-anchor="start" fill="#64748B" font-style="italic">«creates»</text>
 <text x="520" y="372" font-size="12" text-anchor="middle" fill="#1F2937">service</text>
 <text x="588" y="398" font-size="12" text-anchor="middle" fill="#64748B">1</text>
-<text x="760" y="168" font-size="12" text-anchor="middle" fill="#1F2937">dataStore</text>
+<text x="760" y="168" font-size="12" text-anchor="middle" fill="#1F2937">repository</text>
 <text x="1178" y="168" font-size="12" text-anchor="middle" fill="#64748B">1</text>
 <text x="1115" y="372" font-size="12" text-anchor="middle" fill="#64748B" font-style="italic">«exports / imports»</text>
 <text x="1365" y="283" font-size="12" text-anchor="start" fill="#64748B" font-style="italic">«saves / loads»</text>
