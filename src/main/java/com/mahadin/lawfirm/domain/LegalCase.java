@@ -13,6 +13,8 @@ import java.util.Objects;
 
 public abstract class LegalCase {
 
+    public static final double MAX_TOTAL_HOURS = 1000;
+
     private final int id;
     private final String title;
     private final Client client;
@@ -100,6 +102,9 @@ public abstract class LegalCase {
         }
         if (!isActive()) {
             throw new CaseClosedException("Cannot log hours on a closed case.");
+        }
+        if (getTotalHours() + entry.getHours() > MAX_TOTAL_HOURS) {
+            throw new ValidationException("A case cannot have more than " + (int) MAX_TOTAL_HOURS + " hours in total.");
         }
         timeEntries.add(entry);
     }
