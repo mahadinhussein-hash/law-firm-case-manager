@@ -73,7 +73,7 @@ class LawFirmServiceTest {
         openFamilyCase("Custody", LocalDate.of(2026, 12, 1));
 
         assertThrows(ConflictOfInterestException.class, () ->
-                service.openCorporateCase("Contract dispute", bela, "anna kovacs",
+                service.openCase("corporate", "Contract dispute", bela, "anna kovacs",
                         LocalDate.of(2026, 12, 15), peter, "Szabo Kft"));
     }
 
@@ -83,7 +83,7 @@ class LawFirmServiceTest {
         Lawyer eva = service.addLawyer("Eva Toth", 120.0);
         openFamilyCase("Custody", LocalDate.of(2026, 12, 1));
 
-        assertDoesNotThrow(() -> service.openCorporateCase("Contract dispute", bela, "Anna Kovacs",
+        assertDoesNotThrow(() -> service.openCase("corporate", "Contract dispute", bela, "Anna Kovacs",
                 LocalDate.of(2026, 12, 15), eva, "Szabo Kft"));
     }
 
