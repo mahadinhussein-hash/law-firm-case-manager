@@ -21,8 +21,8 @@ public class Client extends Person {
     }
 
     public void setEmail(String email) {
-        if (email == null || !email.contains("@")) {
-            throw new ValidationException("Email must contain '@'.");
+        if (email == null || !email.contains("@") || email.indexOf('.', email.indexOf('@')) == -1) {
+            throw new ValidationException("Email must contain '@' and a '.' after it.");
         }
         this.email = email.trim();
     }
