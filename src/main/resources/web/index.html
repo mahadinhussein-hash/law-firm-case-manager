@@ -47,15 +47,19 @@
       <div class="card h-100">
         <div class="card-header">Open a case</div>
         <form class="card-body" data-url="/api/case">
+          <label class="form-label small text-muted mb-1">Case type</label>
           <select class="form-select mb-2" name="type" id="caseType">
             <option value="criminal">Criminal</option>
             <option value="family">Family</option>
             <option value="corporate">Corporate</option>
           </select>
           <input class="form-control mb-2" name="title" placeholder="Title" required>
+          <label class="form-label small text-muted mb-1">Client</label>
           <select class="form-select mb-2" name="clientId" id="caseClient" required></select>
           <input class="form-control mb-2" name="opposingParty" placeholder="Opposing party" required>
+          <label class="form-label small text-muted mb-1">Deadline date</label>
           <input class="form-control mb-2" name="deadline" type="date" required>
+          <label class="form-label small text-muted mb-1">Lawyer</label>
           <select class="form-select mb-2" name="lawyerId" id="caseLawyer" required></select>
           <input class="form-control mb-3" name="extra" id="caseExtra" placeholder="Charge" required>
           <button class="btn btn-primary">Open case</button>
@@ -67,7 +71,9 @@
       <div class="card h-100">
         <div class="card-header">Log hours</div>
         <form class="card-body" data-url="/api/hours">
+          <label class="form-label small text-muted mb-1">Case</label>
           <select class="form-select mb-2" name="caseId" data-cases required></select>
+          <label class="form-label small text-muted mb-1">Date of the work</label>
           <input class="form-control mb-2" name="date" type="date" required>
           <input class="form-control mb-2" name="hours" type="number" step="0.25" placeholder="Hours" required>
           <input class="form-control mb-3" name="description" placeholder="Description" required>
