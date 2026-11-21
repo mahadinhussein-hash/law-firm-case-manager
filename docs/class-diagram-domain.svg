@@ -2,17 +2,31 @@
 <rect width="100%" height="100%" fill="#FFFFFF"/>
 <text x="40" y="46" font-size="24" font-weight="700" fill="#1F2937">Law Firm Case Manager: domain model and billing</text>
 <text x="40" y="70" font-size="14" fill="#64748B">UML class diagram, packages domain and billing. Strategy pattern: LegalCase (context) uses a BillingStrategy.</text>
+<rect x="1132" y="1163" width="290" height="76" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="1130" y="1160" width="290" height="76" rx="3" fill="#FFFFFF" stroke="#059669" stroke-width="1.6"/>
+<path d="M1130 1160 h290 v46 h-290 z" fill="#D1FAE5" stroke="#059669" stroke-width="1.6"/>
+<text x="1275" y="1177" font-size="12" text-anchor="middle" fill="#64748B">«factory»</text>
+<text x="1275" y="1197" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">BillingFactory</text>
+<line x1="1130" y1="1206" x2="1420" y2="1206" stroke="#059669" stroke-width="1.2"/>
+<text x="1140" y="1224.5" font-size="13" fill="#1F2937" text-decoration="underline">+create(...): BillingStrategy</text>
+<rect x="1452" y="1163" width="260" height="76" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="1450" y="1160" width="260" height="76" rx="3" fill="#FFFFFF" stroke="#059669" stroke-width="1.6"/>
+<path d="M1450 1160 h260 v46 h-260 z" fill="#D1FAE5" stroke="#059669" stroke-width="1.6"/>
+<text x="1580" y="1177" font-size="12" text-anchor="middle" fill="#64748B">«factory»</text>
+<text x="1580" y="1197" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937">CaseFactory</text>
+<line x1="1450" y1="1206" x2="1710" y2="1206" stroke="#059669" stroke-width="1.2"/>
+<text x="1460" y="1224.5" font-size="13" fill="#1F2937" text-decoration="underline">+create(...): LegalCase</text>
 <rect x="40" y="1350" width="1700" height="118" rx="10" fill="#F8FAFC" stroke="#CBD5E1"/>
 <polyline points="410,370 410,336 680,336 680,307" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
 <polygon points="680,292 688,307 672,307" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
 <polyline points="960,370 960,336 680,336 680,307" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
 <polygon points="680,292 688,307 672,307" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
-<polyline points="400,1192 400,1146 680,1146 680,1117" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
-<polygon points="680,1102 688,1117 672,1117" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
-<polyline points="680,1192 680,1117" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
-<polygon points="680,1102 688,1117 672,1117" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
-<polyline points="960,1192 960,1146 680,1146 680,1117" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
-<polygon points="680,1102 688,1117 672,1117" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="400,1192 400,1146 680,1146 680,1137" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,1122 688,1137 672,1137" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="680,1192 680,1137" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,1122 688,1137 672,1137" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
+<polyline points="960,1192 960,1146 680,1146 680,1137" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
+<polygon points="680,1122 688,1137 672,1137" fill="#FFFFFF" stroke="#475569" stroke-width="1.6"/>
 <polyline points="500,680 500,558" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
 <polyline points="505.5,569 500,558 494.5,569" fill="none" stroke="#475569" stroke-width="1.6"/>
 <polyline points="848,680 848,518" fill="none" stroke="#475569" stroke-width="1.6" stroke-linejoin="round"/>
@@ -80,8 +94,8 @@
 <text x="810" y="468.5" font-size="13" fill="#1F2937">+getHourlyRate(): double</text>
 <text x="810" y="488.5" font-size="13" fill="#1F2937">+setHourlyRate(double): void</text>
 <text x="810" y="508.5" font-size="13" fill="#1F2937">+toString(): String</text>
-<rect x="482" y="683" width="400" height="422" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
-<rect x="480" y="680" width="400" height="422" rx="3" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.6"/>
+<rect x="482" y="683" width="400" height="442" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
+<rect x="480" y="680" width="400" height="442" rx="3" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.6"/>
 <path d="M480 680 h400 v46 h-400 z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.6"/>
 <text x="680" y="697" font-size="12" text-anchor="middle" fill="#64748B">«abstract»</text>
 <text x="680" y="717" font-size="15" font-weight="700" text-anchor="middle" fill="#1F2937" font-style="italic">LegalCase</text>
@@ -95,16 +109,17 @@
 <text x="490" y="864.5" font-size="13" fill="#1F2937">-status: CaseStatus</text>
 <text x="490" y="884.5" font-size="13" fill="#1F2937">-timeEntries: List&lt;TimeEntry&gt;</text>
 <text x="490" y="904.5" font-size="13" fill="#1F2937">-billingStrategy: BillingStrategy</text>
-<line x1="480" y1="914" x2="880" y2="914" stroke="#7C3AED" stroke-width="1.2"/>
-<text x="490" y="932.5" font-size="13" fill="#1F2937" font-style="italic">+getCaseType(): String</text>
-<text x="490" y="952.5" font-size="13" fill="#1F2937" font-style="italic">+getRateMultiplier(): double</text>
-<text x="490" y="972.5" font-size="13" fill="#1F2937">+isActive(): boolean</text>
-<text x="490" y="992.5" font-size="13" fill="#1F2937">+getTotalHours(): double</text>
-<text x="490" y="1012.5" font-size="13" fill="#1F2937">+addTimeEntry(TimeEntry): void</text>
-<text x="490" y="1032.5" font-size="13" fill="#1F2937">+setBillingStrategy(BillingStrategy): void</text>
-<text x="490" y="1052.5" font-size="13" fill="#1F2937">+calculateFee(): double</text>
-<text x="490" y="1072.5" font-size="13" fill="#1F2937">+close(CaseStatus): void</text>
-<text x="490" y="1092.5" font-size="13" fill="#1F2937">+setLeadLawyer(Lawyer): void</text>
+<text x="490" y="924.5" font-size="13" fill="#1F2937" text-decoration="underline">+MAX_TOTAL_HOURS: double = 1000</text>
+<line x1="480" y1="934" x2="880" y2="934" stroke="#7C3AED" stroke-width="1.2"/>
+<text x="490" y="952.5" font-size="13" fill="#1F2937" font-style="italic">+getCaseType(): String</text>
+<text x="490" y="972.5" font-size="13" fill="#1F2937" font-style="italic">+getRateMultiplier(): double</text>
+<text x="490" y="992.5" font-size="13" fill="#1F2937">+isActive(): boolean</text>
+<text x="490" y="1012.5" font-size="13" fill="#1F2937">+getTotalHours(): double</text>
+<text x="490" y="1032.5" font-size="13" fill="#1F2937">+addTimeEntry(TimeEntry): void</text>
+<text x="490" y="1052.5" font-size="13" fill="#1F2937">+setBillingStrategy(BillingStrategy): void</text>
+<text x="490" y="1072.5" font-size="13" fill="#1F2937">+calculateFee(): double</text>
+<text x="490" y="1092.5" font-size="13" fill="#1F2937">+close(CaseStatus): void</text>
+<text x="490" y="1112.5" font-size="13" fill="#1F2937">+setLeadLawyer(Lawyer): void</text>
 <rect x="277" y="1195" width="250" height="128" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
 <rect x="275" y="1192" width="250" height="128" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
 <path d="M275 1192 h250 v32 h-250 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
@@ -212,5 +227,5 @@
 <text x="526" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Composition (owns the parts)</text>
 <text x="716" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Dependency (uses)</text>
 <text x="64" y="1434" font-size="12" text-anchor="start" fill="#1F2937">Visibility:  + public   - private   # protected      Underlined = static      Italic = abstract</text>
-<text x="64" y="1456" font-size="12" text-anchor="start" fill="#64748B">Constructors and plain getters/setters are left out. Person, LegalCase, FirmData and BillingStrategy are Serializable.</text>
+<text x="64" y="1456" font-size="12" text-anchor="start" fill="#64748B">Constructors and plain getters/setters are left out. Factory pattern: BillingFactory and CaseFactory build objects from a text (static create methods). (...) = shortened parameter list.</text>
 </svg>
