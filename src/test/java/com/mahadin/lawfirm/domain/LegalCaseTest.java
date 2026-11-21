@@ -44,10 +44,10 @@ class LegalCaseTest {
     @Test
     void caseCannotHaveMoreThanMaximumHours() {
         LocalDate day = LocalDate.of(2026, 11, 1);
-        for (int i = 0; i < 41; i++) {
-            legalCase.addTimeEntry(new TimeEntry(day, 24, "Long day"));
+        for (int i = 0; i < 49; i++) {
+            legalCase.addTimeEntry(new TimeEntry(day, 20, "Long day"));
         }
-        legalCase.addTimeEntry(new TimeEntry(day, 16, "Last allowed hours"));
+        legalCase.addTimeEntry(new TimeEntry(day, 20, "Last allowed hours"));
 
         assertEquals(LegalCase.MAX_TOTAL_HOURS, legalCase.getTotalHours(), 0.001);
         assertThrows(ValidationException.class, () ->

@@ -14,8 +14,8 @@ public class TimeEntry {
         if (date == null) {
             throw new ValidationException("Date is required.");
         }
-        if (hours <= 0 || hours > 24) {
-            throw new ValidationException("Hours must be between 0 and 24.");
+        if (hours <= 0 || hours > 20) {
+            throw new ValidationException("Hours must be between 0 and 20.");
         }
         if (description == null || description.isBlank()) {
             throw new ValidationException("Description cannot be empty.");
