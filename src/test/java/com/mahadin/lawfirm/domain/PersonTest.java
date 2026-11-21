@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,6 +18,18 @@ class PersonTest {
                 new Client(1, "Anna Kovacs", "not-an-email", "+36 30 123 4567"));
         assertThrows(ValidationException.class, () ->
                 new Client(1, "Qais Hijazen", "qais@gmail", "0795211112"));
+        assertThrows(ValidationException.class, () ->
+                new Client(1, "Anna Kovacs", "anna@example.", "123"));
+        assertThrows(ValidationException.class, () ->
+                new Client(1, "Anna Kovacs", "@example.com", "123"));
+    }
+
+    @Test
+    void clientPhoneCanOnlyHaveNumbers() {
+        assertThrows(ValidationException.class, () ->
+                new Client(1, "Anna Kovacs", "anna@example.com", "abc"));
+        assertDoesNotThrow(() ->
+                new Client(1, "Anna Kovacs", "anna@example.com", "+36 30 123-4567"));
     }
 
     @Test

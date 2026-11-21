@@ -41,10 +41,10 @@ class JsonFirmRepositoryTest {
         LawFirmService service = new LawFirmService();
         Client anna = service.addClient("Anna Kovacs", "anna@example.com", "+36 30 123 4567");
         Lawyer peter = service.addLawyer("Peter Nagy", 100.0);
-        LegalCase family = service.openFamilyCase("Divorce", anna, "Gabor Kovacs",
+        LegalCase family = service.openCase("family", "Divorce", anna, "Gabor Kovacs",
                 LocalDate.of(2026, 12, 31), peter, "divorce");
         service.logHours(family, LocalDate.of(2026, 11, 1), 3, "First meeting");
-        LegalCase criminal = service.openCriminalCase("Theft", anna, "State",
+        LegalCase criminal = service.openCase("criminal", "Theft", anna, "State",
                 LocalDate.of(2027, 1, 15), peter, "theft");
         service.chooseBilling(criminal, BillingFactory.create("contingency", 0, 20, 5000));
         service.closeCase(criminal, CaseStatus.WON);

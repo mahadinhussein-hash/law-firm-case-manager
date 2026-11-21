@@ -33,7 +33,7 @@ class LawFirmServiceTest {
     }
 
     private LegalCase openFamilyCase(String title, LocalDate deadline) throws LawFirmException {
-        return service.openFamilyCase(title, anna, "Someone Else", deadline, peter, "custody");
+        return service.openCase("family", title, anna, "Someone Else", deadline, peter, "custody");
     }
 
     @Test

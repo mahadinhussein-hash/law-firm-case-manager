@@ -79,9 +79,9 @@
 <path d="M40 760 h246 l14 14 v68 h-260 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
 <path d="M286 760 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
 <text x="50" y="780" font-size="12" fill="#1F2937">Bad input or bad state:</text>
-<text x="50" y="797" font-size="12" fill="#1F2937">empty name, rate &lt;= 0, bad email,</text>
+<text x="50" y="797" font-size="12" fill="#1F2937">empty name, rate &lt;= 0, bad email or phone,</text>
 <text x="50" y="814" font-size="12" fill="#1F2937">unknown id. Thrown by domain,</text>
-<text x="50" y="831" font-size="12" fill="#1F2937">billing, service and DataStore.</text>
+<text x="50" y="831" font-size="12" fill="#1F2937">billing, service and JsonFirmRepository.</text>
 <path d="M330 760 h246 l14 14 v51 h-260 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
 <path d="M576 760 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
 <text x="340" y="780" font-size="12" fill="#1F2937">Logging hours on a closed case,</text>
@@ -99,8 +99,8 @@
 <text x="980" y="814" font-size="12" fill="#1F2937">Thrown by LawFirmService.</text>
 <path d="M1200 470 h236 l14 14 v34 h-250 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
 <path d="M1436 470 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
-<text x="1210" y="490" font-size="12" fill="#1F2937">save() / load() in DataStore throw it</text>
-<text x="1210" y="507" font-size="12" fill="#1F2937">when the file cannot be written or read.</text>
+<text x="1210" y="490" font-size="12" fill="#1F2937">save() / load() throw it when the</text>
+<text x="1210" y="507" font-size="12" fill="#1F2937">file cannot be written or read.</text>
 <path d="M40 880 h1396 l14 14 v17 h-1410 z" fill="#FEF9C3" stroke="#CA8A04" stroke-width="1.2"/>
 <path d="M1436 880 v14 h14" fill="none" stroke="#CA8A04" stroke-width="1.2"/>
 <text x="50" y="900" font-size="12" fill="#1F2937">ConsoleMenu catches ValidationException and CaseClosedException (together), LawFirmException, and IOException, and prints the message instead of crashing.</text>
