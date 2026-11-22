@@ -45,7 +45,7 @@ public class LawFirmService {
     public LegalCase openCase(String type, String title, Client client, String opposingParty,
                               LocalDate deadline, Lawyer lawyer, String detail)
             throws CaseLoadExceededException, ConflictOfInterestException {
-        checkCanAssign(lawyer, opposingParty);
+        checkCanAssign(lawyer, client, opposingParty);
         return register(CaseFactory.create(type, nextCaseId, title, client, opposingParty, deadline, lawyer, detail));
     }
 
@@ -148,7 +148,7 @@ public class LawFirmService {
         return legalCase;
     }
 
-    private void checkCanAssign(Lawyer lawyer, String opposingParty)
+    private void checkCanAssign(Lawyer lawyer, Client client, String opposingParty)
             throws CaseLoadExceededException, ConflictOfInterestException {
         if (lawyer == null) {
             throw new ValidationException("A lawyer must be chosen.");
@@ -165,9 +165,15 @@ public class LawFirmService {
         for (LegalCase legalCase : cases) {
             boolean sameLawyer = legalCase.isActive() && legalCase.getLeadLawyer().equals(lawyer);
             boolean opposingIsOwnClient = legalCase.getClient().getName().equalsIgnoreCase(opposingParty.trim());
+            boolean clientIsOpposingParty = client != null
+                    && legalCase.getOpposingParty().equalsIgnoreCase(client.getName());
             if (sameLawyer && opposingIsOwnClient) {
                 throw new ConflictOfInterestException(lawyer.getName() + " already represents "
                         + opposingParty.trim() + " and cannot act against them.");
+            }
+            if (sameLawyer && clientIsOpposingParty) {
+                throw new ConflictOfInterestException(lawyer.getName() + " is already acting against "
+                        + client.getName() + " and cannot represent them.");
             }
         }
     }
