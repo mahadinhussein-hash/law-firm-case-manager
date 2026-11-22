@@ -8,7 +8,9 @@ A Java application for a small law firm with **two interfaces to the same progra
 **Problem it solves:** small firms often keep this information in spreadsheets, which makes it easy to give a lawyer too many cases, miss a conflict of interest, or calculate a fee wrongly. This application keeps everything in one place and checks the firm's rules automatically:
 
 - a lawyer can lead at most **5 active cases** at the same time;
-- a lawyer cannot take a case **against one of their own clients** (conflict of interest);
+- a lawyer cannot take a case **against one of their own clients** (conflict of interest), and cannot represent someone they are already acting against;
+- one time entry is at most **20 hours**, and a case can have at most 1000 hours in total;
+- names need a first and last name, and emails and phone numbers are checked;
 - hours cannot be logged on a closed case, and a case cannot be closed twice.
 
 User stories with acceptance criteria are in [`docs/user-stories.md`](docs/user-stories.md).
@@ -108,7 +110,7 @@ Examples of rules being enforced:
 Refused: Peter Nagy already has 5 active cases.
 Refused: Peter Nagy already represents Anna Kovacs and cannot act against them.
 Error: Cannot log hours on a closed case.
-Error: Email must contain '@'.
+Error: Email must contain '@' and a '.' after it.
 ```
 
 ## Project structure
