@@ -21,12 +21,13 @@ As firm staff, I want to open a case (criminal, family or corporate) for a clien
 - Each case belongs to exactly one client and has exactly one lead lawyer.
 - Assigning a lawyer who already has 5 active cases is refused.
 - Assigning a lawyer to a case whose opposing party is one of that lawyer's own clients is refused (conflict of interest).
+- Assigning a lawyer who is already acting against the client of the new case is refused (conflict of interest).
 
 ## US3 – Log hours, choose billing and close a case
 As firm staff, I want to log billable hours, choose a billing method (hourly, flat fee or contingency) and close the case with an outcome, so the correct fee is calculated.
 
 **Acceptance criteria**
-- Hours must be positive; each entry has a date and a description.
+- Hours must be more than 0 and at most 20 per entry; each entry has a date and a description.
 - Hourly billing = hours × lawyer rate × case-type multiplier.
 - Flat fee billing = a fixed amount.
 - Contingency billing = a percentage of the settlement, charged only if the case is won.
