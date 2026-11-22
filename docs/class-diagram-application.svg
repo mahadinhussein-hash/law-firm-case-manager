@@ -90,7 +90,7 @@
 <text x="610" y="738.5" font-size="13" fill="#1F2937">+exportData(): FirmData</text>
 <text x="610" y="758.5" font-size="13" fill="#1F2937">+importData(FirmData): void</text>
 <text x="610" y="778.5" font-size="13" fill="#1F2937">-register(LegalCase): LegalCase</text>
-<text x="610" y="798.5" font-size="13" fill="#1F2937">-checkCanAssign(Lawyer, String): void</text>
+<text x="610" y="798.5" font-size="13" fill="#1F2937">-checkCanAssign(Lawyer, Client, String): void</text>
 <rect x="1192" y="123" width="330" height="108" rx="3" fill="#0F172A" fill-opacity="0.07" stroke="none" stroke-width="1.6"/>
 <rect x="1190" y="120" width="330" height="108" rx="3" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.6"/>
 <path d="M1190 120 h330 v32 h-330 z" fill="#DBEAFE" stroke="#3B82F6" stroke-width="1.6"/>
