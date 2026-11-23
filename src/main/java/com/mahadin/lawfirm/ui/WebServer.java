@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.ui;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.billing.BillingFactory;
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
@@ -131,11 +133,11 @@ public class WebServer {
         try {
             String message = action.run(readForm(exchange));
             saveData();
-            send(exchange, 200, "application/json", "{\"message\":" + quote(message) + "}");
+            send(exchange, 200, "application/json", reply("message", message));
         } catch (ValidationException | CaseClosedException e) {
-            send(exchange, 400, "application/json", "{\"error\":" + quote("Error: " + e.getMessage()) + "}");
+            send(exchange, 400, "application/json", reply("error", "Error: " + e.getMessage()));
         } catch (LawFirmException e) {
-            send(exchange, 409, "application/json", "{\"error\":" + quote("Refused: " + e.getMessage()) + "}");
+            send(exchange, 409, "application/json", reply("error", "Refused: " + e.getMessage()));
         }
     }
 
@@ -161,42 +163,40 @@ public class WebServer {
             order = Comparator.comparing(legalCase -> legalCase.getClient().getName());
         }
 
-        StringBuilder json = new StringBuilder("{\"clients\":[");
-        boolean first = true;
+        JsonArray clients = new JsonArray();
         for (Client client : service.getClients()) {
-            json.append(first ? "" : ",").append("{\"id\":").append(client.getId())
-                    .append(",\"name\":").append(quote(client.getName()))
-                    .append(",\"email\":").append(quote(client.getEmail()))
-                    .append(",\"phone\":").append(quote(client.getPhone())).append("}");
-            first = false;
+            clients.add(client.toJson());
         }
-        json.append("],\"lawyers\":[");
-        first = true;
+        JsonArray lawyers = new JsonArray();
         for (Lawyer lawyer : service.getLawyers()) {
-            json.append(first ? "" : ",").append("{\"id\":").append(lawyer.getId())
-                    .append(",\"name\":").append(quote(lawyer.getName()))
-                    .append(",\"rate\":").append(lawyer.getHourlyRate())
-                    .append(",\"activeCases\":").append(service.countActiveCases(lawyer)).append("}");
-            first = false;
+            JsonObject o = new JsonObject();
+            o.addProperty("id", lawyer.getId());
+            o.addProperty("name", lawyer.getName());
+            o.addProperty("rate", lawyer.getHourlyRate());
+            o.addProperty("activeCases", service.countActiveCases(lawyer));
+            lawyers.add(o);
         }
-        json.append("],\"cases\":[");
-        first = true;
+        JsonArray cases = new JsonArray();
         for (LegalCase legalCase : service.getCasesSorted(order)) {
-            json.append(first ? "" : ",").append("{\"id\":").append(legalCase.getId())
-                    .append(",\"type\":").append(quote(legalCase.getCaseType()))
-                    .append(",\"title\":").append(quote(legalCase.getTitle()))
-                    .append(",\"client\":").append(quote(legalCase.getClient().getName()))
-                    .append(",\"lawyer\":").append(quote(legalCase.getLeadLawyer().getName()))
-                    .append(",\"opposingParty\":").append(quote(legalCase.getOpposingParty()))
-                    .append(",\"deadline\":").append(quote(legalCase.getDeadline().toString()))
-                    .append(",\"status\":").append(quote(legalCase.getStatus().toString()))
-                    .append(",\"hours\":").append(legalCase.getTotalHours())
-                    .append(",\"billing\":").append(quote(legalCase.getBillingStrategy().getName()))
-                    .append(",\"fee\":").append(String.format(Locale.ROOT, "%.2f", legalCase.calculateFee())).append("}");
-            first = false;
+            JsonObject o = new JsonObject();
+            o.addProperty("id", legalCase.getId());
+            o.addProperty("type", legalCase.getCaseType());
+            o.addProperty("title", legalCase.getTitle());
+            o.addProperty("client", legalCase.getClient().getName());
+            o.addProperty("lawyer", legalCase.getLeadLawyer().getName());
+            o.addProperty("opposingParty", legalCase.getOpposingParty());
+            o.addProperty("deadline", legalCase.getDeadline().toString());
+            o.addProperty("status", legalCase.getStatus().toString());
+            o.addProperty("hours", legalCase.getTotalHours());
+            o.addProperty("billing", legalCase.getBillingStrategy().getName());
+            o.addProperty("fee", legalCase.calculateFee());
+            cases.add(o);
         }
-        json.append("]}");
-        send(exchange, 200, "application/json", json.toString());
+        JsonObject state = new JsonObject();
+        state.add("clients", clients);
+        state.add("lawyers", lawyers);
+        state.add("cases", cases);
+        send(exchange, 200, "application/json", state.toString());
     }
 
     private void saveData() {
@@ -259,19 +259,10 @@ public class WebServer {
         }
     }
 
-    /** Puts a text in quotes for JSON and escapes the characters that would break it. */
-    private String quote(String text) {
-        StringBuilder out = new StringBuilder("\"");
-        for (char c : text.toCharArray()) {
-            switch (c) {
-                case '"' -> out.append("\\\"");
-                case '\\' -> out.append("\\\\");
-                case '\n' -> out.append("\\n");
-                case '\r' -> out.append("\\r");
-                case '\t' -> out.append("\\t");
-                default -> out.append(c < 0x20 ? String.format("\\u%04x", (int) c) : String.valueOf(c));
-            }
-        }
-        return out.append('"').toString();
+    /** A small JSON answer such as {"message": "..."}; Gson takes care of the escaping. */
+    private String reply(String key, String text) {
+        JsonObject o = new JsonObject();
+        o.addProperty(key, text);
+        return o.toString();
     }
 }
