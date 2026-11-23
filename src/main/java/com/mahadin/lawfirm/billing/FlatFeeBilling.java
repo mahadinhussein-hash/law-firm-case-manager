@@ -1,5 +1,6 @@
 package com.mahadin.lawfirm.billing;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.exception.ValidationException;
 
@@ -26,5 +27,13 @@ public class FlatFeeBilling implements BillingStrategy {
     @Override
     public String getName() {
         return String.format("Flat fee (%.2f EUR)", amount);
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject o = new JsonObject();
+        o.addProperty("method", "flat");
+        o.addProperty("amount", amount);
+        return o;
     }
 }
