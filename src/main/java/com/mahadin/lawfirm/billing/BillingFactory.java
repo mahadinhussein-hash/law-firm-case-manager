@@ -1,5 +1,6 @@
 package com.mahadin.lawfirm.billing;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
 
 import java.util.Locale;
@@ -22,5 +23,15 @@ public final class BillingFactory {
             case "contingency" -> new ContingencyBilling(percentage, settlement);
             default -> throw new ValidationException("Unknown billing method.");
         };
+    }
+
+    /** Builds a strategy from the JSON written by its toJson() method. */
+    public static BillingStrategy fromJson(JsonObject o) {
+        return create(o.get("method").getAsString(), number(o, "amount"),
+                number(o, "percentage"), number(o, "settlement"));
+    }
+
+    private static double number(JsonObject o, String name) {
+        return o.has(name) ? o.get(name).getAsDouble() : 0;
     }
 }
