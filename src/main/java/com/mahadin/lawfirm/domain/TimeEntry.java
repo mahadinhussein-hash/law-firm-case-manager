@@ -2,6 +2,7 @@ package com.mahadin.lawfirm.domain;
 
 import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
+import com.mahadin.lawfirm.json.JsonFactory;
 
 import java.time.LocalDate;
 
@@ -38,17 +39,9 @@ public class TimeEntry {
         return description;
     }
 
+    /** Gson reads the fields (date, hours, description) itself. */
     public JsonObject toJson() {
-        JsonObject o = new JsonObject();
-        o.addProperty("date", date.toString());
-        o.addProperty("hours", hours);
-        o.addProperty("description", description);
-        return o;
-    }
-
-    public static TimeEntry fromJson(JsonObject o) {
-        return new TimeEntry(LocalDate.parse(o.get("date").getAsString()),
-                o.get("hours").getAsDouble(), o.get("description").getAsString());
+        return JsonFactory.create().toJsonTree(this).getAsJsonObject();
     }
 
     @Override

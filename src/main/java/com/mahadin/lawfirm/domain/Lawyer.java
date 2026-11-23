@@ -2,6 +2,7 @@ package com.mahadin.lawfirm.domain;
 
 import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
+import com.mahadin.lawfirm.json.JsonFactory;
 
 public class Lawyer extends Person {
 
@@ -25,16 +26,9 @@ public class Lawyer extends Person {
         this.hourlyRate = hourlyRate;
     }
 
+    /** Gson reads the fields (id, name, hourlyRate) itself. */
     public JsonObject toJson() {
-        JsonObject o = new JsonObject();
-        o.addProperty("id", getId());
-        o.addProperty("name", getName());
-        o.addProperty("hourlyRate", hourlyRate);
-        return o;
-    }
-
-    public static Lawyer fromJson(JsonObject o) {
-        return new Lawyer(o.get("id").getAsInt(), o.get("name").getAsString(), o.get("hourlyRate").getAsDouble());
+        return JsonFactory.create().toJsonTree(this).getAsJsonObject();
     }
 
     @Override

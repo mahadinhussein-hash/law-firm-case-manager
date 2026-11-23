@@ -118,10 +118,11 @@ Error: Email must contain '@' and a '.' after it.
 ```
 src/main/java/com/mahadin/lawfirm/
 ├── Main.java          creates the objects and starts the console menu (or the web page with --web)
-├── domain/            Person, Client, Lawyer, LegalCase and its subclasses, TimeEntry, CaseStatus
+├── domain/            Person, Client, Lawyer, LegalCase and its subclasses, TimeEntry, CaseStatus and the factories (CaseFactory, ClientFactory, LawyerFactory, TimeEntryFactory)
 ├── billing/           BillingStrategy and its three implementations (Strategy pattern)
 ├── exception/         the application's own exception types
 ├── service/           LawFirmService: the firm's rules and the lists of data
+├── json/              JsonFactory: creates the one configured Gson object
 ├── persistence/       FirmData, JsonFirmRepository (the JSON storage)
 └── ui/                ConsoleMenu: the console interface; WebServer: the web interface (GUI)
 src/main/resources/web/index.html   the Bootstrap page served by WebServer
@@ -141,7 +142,7 @@ docs/                  user stories and UML class diagram
 | **Collections and generics** | `List<Client>`, `List<Lawyer>`, `List<LegalCase>`, `List<TimeEntry>`. |
 | **Sorting** | `LawFirmService.getCasesSorted(Comparator<LegalCase>)` with lambda comparators in `ConsoleMenu` (by deadline, by fee highest first, by client name). |
 | **Exception handling** | Own exception types in the `exception` package: `ValidationException` and `CaseClosedException` (unchecked, for invalid input and closed cases) and `LawFirmException` with `CaseLoadExceededException` and `ConflictOfInterestException` (checked, for the two firm rules). Invalid numbers and dates in the menu are caught and the user is asked again. Load and save problems are reported without crashing. |
-| **Persistence** | `JsonFirmRepository` saves and loads a readable JSON file (Gson), using try-with-resources so the file streams are always closed. Each domain class has a `toJson()` method that says how it is saved, and the factories rebuild the objects with `fromJson(...)`, so the repository only deals with the file. |
+| **Persistence** | `JsonFirmRepository` saves and loads a readable JSON file (Gson), using try-with-resources so the file streams are always closed. Each domain class has a `toJson()` method that says how it is saved (Gson reads the fields of `Client`, `Lawyer` and `TimeEntry` itself), and the factories create the objects again from the JSON with `fromJson(...)`, so the repository only deals with the file. |
 | **Design patterns** | Strategy for billing, Factory for creating cases and billing strategies (see below). |
 | **Build tool** | Maven with the Maven Wrapper. |
 | **Tests** | JUnit 5 tests for fees, case rules, validation, sorting and saving/loading. |
@@ -166,15 +167,17 @@ docs/                  user stories and UML class diagram
 
 **Problem:** creating a case or a billing strategy means choosing a subclass from a text or menu choice. That `if`/`switch` was repeated in the console menu, the web server and the loading code.
 
-**Solution:** two small factories each hold that choice in one place:
+**Solution:** small factories hold that choice, and the creation of the objects, in one place:
 
 | Factory | Input | Result |
 |---|---|---|
 | `CaseFactory.create(type, ...)` | `criminal`, `family` or `corporate` | the matching `LegalCase` subclass |
 | `BillingFactory.create(method, ...)` | `hourly`, `flat` or `contingency` | the matching `BillingStrategy` |
-| `CaseFactory.fromJson(...)`, `BillingFactory.fromJson(...)` | the JSON written by `toJson()` | the same objects, rebuilt when the save file is loaded |
+| `CaseFactory.fromJson(...)`, `BillingFactory.fromJson(...)` | the JSON written by `toJson()` | the same objects, created again when the save file is loaded |
+| `ClientFactory.fromJson(...)`, `LawyerFactory.fromJson(...)`, `TimeEntryFactory.fromJson(...)` | the JSON written by `toJson()` | a `Client`, `Lawyer` or `TimeEntry`, created through its constructor so the rules are checked again |
+| `JsonFactory.create()` | nothing | the one configured Gson object used by the whole project |
 
-An unknown name gives a `ValidationException`. `LawFirmService.openCase(...)` uses `CaseFactory` and the console menu and web page use `BillingFactory`. A new case type is added in `CaseFactory` only. `JsonFirmRepository` uses the `fromJson` methods when it loads the file.
+An unknown name gives a `ValidationException`. `LawFirmService.openCase(...)` uses `CaseFactory` and the console menu and web page use `BillingFactory`. A new case type is added in `CaseFactory` only. `JsonFirmRepository` uses the `fromJson` methods of the factories when it loads the file.
 
 **Benefit:** the code that needs a case or a billing strategy never uses `new` on a concrete subclass, so it only depends on `LegalCase` and `BillingStrategy`. The choice is written once, and a new type is added in one place.
 
