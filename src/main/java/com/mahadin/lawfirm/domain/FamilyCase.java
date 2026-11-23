@@ -1,5 +1,6 @@
 package com.mahadin.lawfirm.domain;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
 
 import java.time.LocalDate;
@@ -29,6 +30,13 @@ public class FamilyCase extends LegalCase {
     @Override
     public double getRateMultiplier() {
         return 1.0;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject o = super.toJson();
+        o.addProperty("detail", matterType);
+        return o;
     }
 
     @Override
