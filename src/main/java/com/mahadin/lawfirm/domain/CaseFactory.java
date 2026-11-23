@@ -1,9 +1,13 @@
 package com.mahadin.lawfirm.domain;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mahadin.lawfirm.billing.BillingFactory;
 import com.mahadin.lawfirm.exception.ValidationException;
 
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Factory for legal cases. The caller says which type it wants ("criminal",
@@ -29,5 +33,31 @@ public final class CaseFactory {
             case "corporate" -> new CorporateCase(id, title, client, opposingParty, deadline, leadLawyer, detail);
             default -> throw new ValidationException("Unknown case type.");
         };
+    }
+
+    /**
+     * Builds a case from the JSON written by its toJson() method. The case refers
+     * to its client and lawyer by id, so the maps of already loaded people are needed.
+     */
+    public static LegalCase fromJson(JsonObject o, Map<Integer, Client> clients, Map<Integer, Lawyer> lawyers) {
+        Client client = clients.get(o.get("clientId").getAsInt());
+        Lawyer lawyer = lawyers.get(o.get("leadLawyerId").getAsInt());
+        if (client == null || lawyer == null) {
+            throw new ValidationException("A case refers to a client or lawyer that does not exist.");
+        }
+        LegalCase legalCase = create(o.get("type").getAsString(), o.get("id").getAsInt(),
+                o.get("title").getAsString(), client, o.get("opposingParty").getAsString(),
+                LocalDate.parse(o.get("deadline").getAsString()), lawyer, o.get("detail").getAsString());
+
+        // hours are added while the case is still open, the status is set last
+        for (JsonElement element : o.getAsJsonArray("timeEntries")) {
+            legalCase.addTimeEntry(TimeEntry.fromJson(element.getAsJsonObject()));
+        }
+        legalCase.setBillingStrategy(BillingFactory.fromJson(o.getAsJsonObject("billing")));
+        CaseStatus status = CaseStatus.valueOf(o.get("status").getAsString());
+        if (status != CaseStatus.OPEN) {
+            legalCase.close(status);
+        }
+        return legalCase;
     }
 }
