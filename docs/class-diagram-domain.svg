@@ -228,4 +228,5 @@
 <text x="716" y="1408" font-size="12" text-anchor="start" fill="#1F2937">Dependency (uses)</text>
 <text x="64" y="1434" font-size="12" text-anchor="start" fill="#1F2937">Visibility:  + public   - private   # protected      Underlined = static      Italic = abstract</text>
 <text x="64" y="1456" font-size="12" text-anchor="start" fill="#64748B">Constructors and plain getters/setters are left out. Factory pattern: BillingFactory and CaseFactory build objects from a text (static create methods). (...) = shortened parameter list.</text>
+<text x="64" y="1476" font-size="12" text-anchor="start" fill="#64748B">Saving: Client, Lawyer, TimeEntry, LegalCase (with its subclasses) and the billing classes also have toJson(); the factories, Client, Lawyer and TimeEntry have fromJson(JsonObject).</text>
 </svg>
