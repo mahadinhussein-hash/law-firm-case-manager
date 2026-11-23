@@ -1,6 +1,5 @@
 package com.mahadin.lawfirm.ui;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.billing.BillingFactory;
 import com.mahadin.lawfirm.domain.CaseStatus;
@@ -10,6 +9,7 @@ import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.exception.CaseClosedException;
 import com.mahadin.lawfirm.exception.LawFirmException;
 import com.mahadin.lawfirm.exception.ValidationException;
+import com.mahadin.lawfirm.json.JsonFactory;
 import com.mahadin.lawfirm.persistence.JsonFirmRepository;
 import com.mahadin.lawfirm.service.LawFirmService;
 import com.sun.net.httpserver.HttpExchange;
@@ -23,8 +23,11 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -163,40 +166,31 @@ public class WebServer {
             order = Comparator.comparing(legalCase -> legalCase.getClient().getName());
         }
 
-        JsonArray clients = new JsonArray();
-        for (Client client : service.getClients()) {
-            clients.add(client.toJson());
-        }
-        JsonArray lawyers = new JsonArray();
+        List<LawyerRow> lawyers = new ArrayList<>();
         for (Lawyer lawyer : service.getLawyers()) {
-            JsonObject o = new JsonObject();
-            o.addProperty("id", lawyer.getId());
-            o.addProperty("name", lawyer.getName());
-            o.addProperty("rate", lawyer.getHourlyRate());
-            o.addProperty("activeCases", service.countActiveCases(lawyer));
-            lawyers.add(o);
+            lawyers.add(new LawyerRow(lawyer.getId(), lawyer.getName(), lawyer.getHourlyRate(),
+                    service.countActiveCases(lawyer)));
         }
-        JsonArray cases = new JsonArray();
-        for (LegalCase legalCase : service.getCasesSorted(order)) {
-            JsonObject o = new JsonObject();
-            o.addProperty("id", legalCase.getId());
-            o.addProperty("type", legalCase.getCaseType());
-            o.addProperty("title", legalCase.getTitle());
-            o.addProperty("client", legalCase.getClient().getName());
-            o.addProperty("lawyer", legalCase.getLeadLawyer().getName());
-            o.addProperty("opposingParty", legalCase.getOpposingParty());
-            o.addProperty("deadline", legalCase.getDeadline().toString());
-            o.addProperty("status", legalCase.getStatus().toString());
-            o.addProperty("hours", legalCase.getTotalHours());
-            o.addProperty("billing", legalCase.getBillingStrategy().getName());
-            o.addProperty("fee", legalCase.calculateFee());
-            cases.add(o);
+        List<CaseRow> cases = new ArrayList<>();
+        for (LegalCase c : service.getCasesSorted(order)) {
+            cases.add(new CaseRow(c.getId(), c.getCaseType(), c.getTitle(), c.getClient().getName(),
+                    c.getLeadLawyer().getName(), c.getOpposingParty(), c.getDeadline().toString(),
+                    c.getStatus().toString(), c.getTotalHours(), c.getBillingStrategy().getName(),
+                    c.calculateFee()));
         }
-        JsonObject state = new JsonObject();
-        state.add("clients", clients);
-        state.add("lawyers", lawyers);
-        state.add("cases", cases);
-        send(exchange, 200, "application/json", state.toString());
+        Map<String, Object> state = new LinkedHashMap<>();
+        state.put("clients", service.getClients());
+        state.put("lawyers", lawyers);
+        state.put("cases", cases);
+        send(exchange, 200, "application/json", JsonFactory.create().toJson(state));
+    }
+
+    // what the page shows for one lawyer / one case (names and totals, not the ids the save file uses)
+    private record LawyerRow(int id, String name, double rate, int activeCases) {
+    }
+
+    private record CaseRow(int id, String type, String title, String client, String lawyer, String opposingParty,
+                           String deadline, String status, double hours, String billing, double fee) {
     }
 
     private void saveData() {
