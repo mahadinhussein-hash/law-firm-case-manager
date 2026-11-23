@@ -1,5 +1,6 @@
 package com.mahadin.lawfirm.billing;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.exception.ValidationException;
@@ -39,5 +40,14 @@ public class ContingencyBilling implements BillingStrategy {
     @Override
     public String getName() {
         return String.format("Contingency (%.0f%% of %.2f EUR, only if won)", percentage, settlementAmount);
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject o = new JsonObject();
+        o.addProperty("method", "contingency");
+        o.addProperty("percentage", percentage);
+        o.addProperty("settlement", settlementAmount);
+        return o;
     }
 }
