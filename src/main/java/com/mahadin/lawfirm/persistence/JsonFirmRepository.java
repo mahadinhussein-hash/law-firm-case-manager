@@ -1,15 +1,18 @@
 package com.mahadin.lawfirm.persistence;
 
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mahadin.lawfirm.domain.CaseFactory;
 import com.mahadin.lawfirm.domain.Client;
+import com.mahadin.lawfirm.domain.ClientFactory;
 import com.mahadin.lawfirm.domain.Lawyer;
+import com.mahadin.lawfirm.domain.Lawyer;
+import com.mahadin.lawfirm.domain.LawyerFactory;
 import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.exception.ValidationException;
+import com.mahadin.lawfirm.json.JsonFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +28,9 @@ import java.util.Map;
 /**
  * Stores the firm's data as a readable JSON file.
  * Each domain class knows how to turn itself into JSON (toJson) and the
- * factories rebuild the objects from JSON (fromJson), through their
- * constructors, so every rule is checked again when a file is loaded.
- * This class only deals with the file.
+ * factories (ClientFactory, LawyerFactory, CaseFactory, ...) create the objects
+ * again from JSON, through their constructors, so every rule is checked again
+ * when a file is loaded. This class only deals with the file.
  */
 public class JsonFirmRepository {
 
@@ -63,7 +66,7 @@ public class JsonFirmRepository {
         root.add("lawyers", lawyers);
         root.add("cases", cases);
         try (Writer out = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8)) {
-            new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(root, out);
+            JsonFactory.create().toJson(root, out);
         }
     }
 
@@ -78,7 +81,7 @@ public class JsonFirmRepository {
             Map<Integer, Client> clients = new HashMap<>();
             List<Client> clientList = new ArrayList<>();
             for (JsonElement element : root.getAsJsonArray("clients")) {
-                Client client = Client.fromJson(element.getAsJsonObject());
+                Client client = ClientFactory.fromJson(element.getAsJsonObject());
                 clients.put(client.getId(), client);
                 clientList.add(client);
             }
@@ -86,7 +89,7 @@ public class JsonFirmRepository {
             Map<Integer, Lawyer> lawyers = new HashMap<>();
             List<Lawyer> lawyerList = new ArrayList<>();
             for (JsonElement element : root.getAsJsonArray("lawyers")) {
-                Lawyer lawyer = Lawyer.fromJson(element.getAsJsonObject());
+                Lawyer lawyer = LawyerFactory.fromJson(element.getAsJsonObject());
                 lawyers.put(lawyer.getId(), lawyer);
                 lawyerList.add(lawyer);
             }
