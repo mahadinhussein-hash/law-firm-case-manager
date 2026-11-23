@@ -1,6 +1,8 @@
 package com.mahadin.lawfirm.persistence;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.billing.BillingFactory;
+import com.mahadin.lawfirm.billing.BillingStrategy;
 import com.mahadin.lawfirm.domain.CaseStatus;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.Lawyer;
@@ -24,6 +26,32 @@ class JsonFirmRepositoryTest {
 
     @TempDir
     Path tempFolder;
+
+    @Test
+    void clientAndBillingCanBeRebuiltFromTheirOwnJson() {
+        Client anna = new Client(1, "Anna Kovacs", "anna@example.com", "+36 30 123 4567");
+        JsonObject clientJson = anna.toJson();
+        assertEquals(anna, Client.fromJson(clientJson));
+        assertEquals("anna@example.com", Client.fromJson(clientJson).getEmail());
+
+        BillingStrategy flat = BillingFactory.create("flat", 800, 0, 0);
+        assertEquals(flat.getName(), BillingFactory.fromJson(flat.toJson()).getName());
+    }
+
+    @Test
+    void caseJsonHoldsTheTypeSpecificDetail() throws LawFirmException {
+        LawFirmService service = new LawFirmService();
+        Client anna = service.addClient("Anna Kovacs", "anna@example.com", "+36 30 123 4567");
+        Lawyer peter = service.addLawyer("Peter Nagy", 100.0);
+        LegalCase criminal = service.openCase("criminal", "Theft", anna, "State",
+                LocalDate.of(2027, 1, 15), peter, "theft");
+
+        JsonObject json = criminal.toJson();
+
+        assertEquals("criminal", json.get("type").getAsString());
+        assertEquals("theft", json.get("detail").getAsString());
+        assertEquals(1, json.get("clientId").getAsInt());
+    }
 
     @Test
     void missingFileGivesEmptyData() throws IOException {
