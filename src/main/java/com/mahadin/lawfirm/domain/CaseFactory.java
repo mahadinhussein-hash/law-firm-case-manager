@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.billing.BillingFactory;
 import com.mahadin.lawfirm.exception.ValidationException;
+import com.mahadin.lawfirm.json.JsonFactory;
 
 import java.time.LocalDate;
 import java.util.Locale;
@@ -40,24 +41,29 @@ public final class CaseFactory {
      * to its client and lawyer by id, so the maps of already loaded people are needed.
      */
     public static LegalCase fromJson(JsonObject o, Map<Integer, Client> clients, Map<Integer, Lawyer> lawyers) {
-        Client client = clients.get(o.get("clientId").getAsInt());
-        Lawyer lawyer = lawyers.get(o.get("leadLawyerId").getAsInt());
+        Data data = JsonFactory.create().fromJson(o, Data.class);
+        Client client = clients.get(data.clientId());
+        Lawyer lawyer = lawyers.get(data.leadLawyerId());
         if (client == null || lawyer == null) {
             throw new ValidationException("A case refers to a client or lawyer that does not exist.");
         }
-        LegalCase legalCase = create(o.get("type").getAsString(), o.get("id").getAsInt(),
-                o.get("title").getAsString(), client, o.get("opposingParty").getAsString(),
-                LocalDate.parse(o.get("deadline").getAsString()), lawyer, o.get("detail").getAsString());
+        LegalCase legalCase = create(data.type(), data.id(), data.title(), client,
+                data.opposingParty(), data.deadline(), lawyer, data.detail());
 
         // hours are added while the case is still open, the status is set last
         for (JsonElement element : o.getAsJsonArray("timeEntries")) {
-            legalCase.addTimeEntry(TimeEntry.fromJson(element.getAsJsonObject()));
+            legalCase.addTimeEntry(TimeEntryFactory.fromJson(element.getAsJsonObject()));
         }
         legalCase.setBillingStrategy(BillingFactory.fromJson(o.getAsJsonObject("billing")));
-        CaseStatus status = CaseStatus.valueOf(o.get("status").getAsString());
+        CaseStatus status = CaseStatus.valueOf(data.status());
         if (status != CaseStatus.OPEN) {
             legalCase.close(status);
         }
         return legalCase;
+    }
+
+    // the plain values of a saved case; the client and lawyer are saved as ids
+    private record Data(int id, String type, String title, int clientId, String opposingParty,
+                        LocalDate deadline, int leadLawyerId, String detail, String status) {
     }
 }
