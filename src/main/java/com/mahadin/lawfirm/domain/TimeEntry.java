@@ -1,5 +1,6 @@
 package com.mahadin.lawfirm.domain;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
 
 import java.time.LocalDate;
@@ -35,6 +36,19 @@ public class TimeEntry {
 
     public String getDescription() {
         return description;
+    }
+
+    public JsonObject toJson() {
+        JsonObject o = new JsonObject();
+        o.addProperty("date", date.toString());
+        o.addProperty("hours", hours);
+        o.addProperty("description", description);
+        return o;
+    }
+
+    public static TimeEntry fromJson(JsonObject o) {
+        return new TimeEntry(LocalDate.parse(o.get("date").getAsString()),
+                o.get("hours").getAsDouble(), o.get("description").getAsString());
     }
 
     @Override

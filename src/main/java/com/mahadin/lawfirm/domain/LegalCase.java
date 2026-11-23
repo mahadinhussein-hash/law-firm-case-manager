@@ -1,5 +1,7 @@
 package com.mahadin.lawfirm.domain;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.billing.BillingStrategy;
 import com.mahadin.lawfirm.billing.HourlyBilling;
 import com.mahadin.lawfirm.exception.CaseClosedException;
@@ -143,6 +145,25 @@ public abstract class LegalCase {
             throw new ValidationException("A case must have a lead lawyer.");
         }
         this.leadLawyer = leadLawyer;
+    }
+
+    public JsonObject toJson() {
+        JsonObject o = new JsonObject();
+        o.addProperty("id", id);
+        o.addProperty("type", getCaseType().toLowerCase());
+        o.addProperty("title", title);
+        o.addProperty("clientId", client.getId());
+        o.addProperty("opposingParty", opposingParty);
+        o.addProperty("deadline", deadline.toString());
+        o.addProperty("leadLawyerId", leadLawyer.getId());
+        o.addProperty("status", status.name());
+        o.add("billing", billingStrategy.toJson());
+        JsonArray entries = new JsonArray();
+        for (TimeEntry entry : timeEntries) {
+            entries.add(entry.toJson());
+        }
+        o.add("timeEntries", entries);
+        return o;
     }
 
     @Override

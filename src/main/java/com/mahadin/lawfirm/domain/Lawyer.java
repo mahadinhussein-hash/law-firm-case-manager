@@ -1,5 +1,6 @@
 package com.mahadin.lawfirm.domain;
 
+import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
 
 public class Lawyer extends Person {
@@ -22,6 +23,18 @@ public class Lawyer extends Person {
             throw new ValidationException("Hourly rate must be greater than 0.");
         }
         this.hourlyRate = hourlyRate;
+    }
+
+    public JsonObject toJson() {
+        JsonObject o = new JsonObject();
+        o.addProperty("id", getId());
+        o.addProperty("name", getName());
+        o.addProperty("hourlyRate", hourlyRate);
+        return o;
+    }
+
+    public static Lawyer fromJson(JsonObject o) {
+        return new Lawyer(o.get("id").getAsInt(), o.get("name").getAsString(), o.get("hourlyRate").getAsDouble());
     }
 
     @Override
