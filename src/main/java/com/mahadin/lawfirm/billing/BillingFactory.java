@@ -2,6 +2,7 @@ package com.mahadin.lawfirm.billing;
 
 import com.google.gson.JsonObject;
 import com.mahadin.lawfirm.exception.ValidationException;
+import com.mahadin.lawfirm.json.JsonFactory;
 
 import java.util.Locale;
 
@@ -27,11 +28,11 @@ public final class BillingFactory {
 
     /** Builds a strategy from the JSON written by its toJson() method. */
     public static BillingStrategy fromJson(JsonObject o) {
-        return create(o.get("method").getAsString(), number(o, "amount"),
-                number(o, "percentage"), number(o, "settlement"));
+        Data data = JsonFactory.create().fromJson(o, Data.class);
+        return create(data.method(), data.amount(), data.percentage(), data.settlement());
     }
 
-    private static double number(JsonObject o, String name) {
-        return o.has(name) ? o.get(name).getAsDouble() : 0;
+    // values a method does not use are missing in the JSON and become 0
+    private record Data(String method, double amount, double percentage, double settlement) {
     }
 }
