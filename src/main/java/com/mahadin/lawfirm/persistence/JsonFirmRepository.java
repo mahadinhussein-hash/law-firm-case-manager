@@ -8,7 +8,6 @@ import com.mahadin.lawfirm.domain.CaseFactory;
 import com.mahadin.lawfirm.domain.Client;
 import com.mahadin.lawfirm.domain.ClientFactory;
 import com.mahadin.lawfirm.domain.Lawyer;
-import com.mahadin.lawfirm.domain.Lawyer;
 import com.mahadin.lawfirm.domain.LawyerFactory;
 import com.mahadin.lawfirm.domain.LegalCase;
 import com.mahadin.lawfirm.exception.ValidationException;
